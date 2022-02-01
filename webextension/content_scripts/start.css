@@ -18,11 +18,12 @@
     border: 1px rgba(255, 255, 255, 0.7);
     width: 20%;
     height: 7%;
+    bottom: 5%;
+    font-size: larger;
 }
 
-#qrshot_cancel_btn {
-    left: 40%;
-    bottom: 5%;
+.qrshot_btn:hover {
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 #qrshot_squere {
