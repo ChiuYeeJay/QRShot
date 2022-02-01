@@ -21,15 +21,5 @@
 
 #qrshot_cancel_btn {
     left: 40%;
-    bottom: 30%;
-}
-
-#just_drag_txt {
-    position: fixed;
-    left: 35%;
-    bottom: 45%;
-    font-size: 100px;
-    text-align: center;
-    width: 30%;
-    color: rgba(255, 255, 255, 0.5);
+    bottom: 5%;
 }
