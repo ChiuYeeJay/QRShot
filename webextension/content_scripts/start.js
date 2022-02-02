@@ -17,7 +17,6 @@ var dont_start_select = false;
 var is_on_certain_button = false;
 var squere;
 var mouse_start_pos;
-var mouse_start_page_pos;
 
 function cancel_btn_clicked() {
     // alert("cancel!");
@@ -37,7 +36,6 @@ function drag_select_begin(e) {
     is_dragging = true;
     console.log(e);
     mouse_start_pos = [e.clientX, e.clientY];
-    mouse_start_page_pos = [e.pageX, e.pageY];
     // let root = document.getElementById("qrshot_root_element");
     squere = document.createElement("div");
     squere.id = "qrshot_squere";
@@ -88,19 +86,19 @@ function drag_select_end(e) {
 
     let offset = [0, 0];
     let cv_sz = [0, 0];
-    if (mouse_start_page_pos[0] < e.pageX) {
-        offset[0] = mouse_start_page_pos[0];
-        cv_sz[0] = e.pageX - offset[0];
+    if (mouse_start_pos[0] < e.clientX) {
+        offset[0] = mouse_start_pos[0];
+        cv_sz[0] = e.clientX - offset[0];
     } else {
-        offset[0] = e.pageX;
-        cv_sz[0] = mouse_start_page_pos[0] - offset[0];
+        offset[0] = e.clientX;
+        cv_sz[0] = mouse_start_pos[0] - offset[0];
     }
-    if (mouse_start_page_pos[1] < e.pageY) {
-        offset[1] = mouse_start_page_pos[1];
-        cv_sz[1] = e.pageY - offset[1];
+    if (mouse_start_pos[1] < e.clientY) {
+        offset[1] = mouse_start_pos[1];
+        cv_sz[1] = e.clientY - offset[1];
     } else {
-        offset[1] = e.pageY;
-        cv_sz[1] = mouse_start_page_pos[1] - offset[1];
+        offset[1] = e.clientY;
+        cv_sz[1] = mouse_start_pos[1] - offset[1];
     }
 
     go_evaluate(offset, cv_sz);
@@ -111,7 +109,7 @@ function go_evaluate(offset = [], cv_sz = []) {
     document.body.removeChild(root);
 
     browser.runtime.onMessage.addListener(receive_result_from_background);
-    browser.runtime.sendMessage([offset, cv_sz]);
+    browser.runtime.sendMessage([offset, cv_sz, [window.innerWidth, window.innerHeight]]);
     // let capturing = browser.tabs.captureVisibleTab();
     // capturing.then((imageUri) => { console.log(imageUri); }, (err) => { console.log(`Error: ${err}`); });
 }
@@ -120,9 +118,11 @@ function receive_result_from_background(obj) {
     document.body.appendChild(root);
     // console.log(obj);
     let experiment = document.createElement("img");
-    experiment.src = obj;
+    experiment.src = obj[0];
     document.body.appendChild(experiment);
-
+    let exp2 = document.createElement("img");
+    exp2.src = obj[1];
+    document.body.appendChild(exp2);
 }
 
 function setup_start_html_elements() {

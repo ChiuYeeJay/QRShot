@@ -9,21 +9,39 @@ function go_shooting() {
 function handle_capture(data = []) {
     browser.tabs.captureVisibleTab().then((capturing) => {
         // console.log(data);
-        let capturing_img = document.createElement("img");
-        capturing_img.src = capturing;
-        let canvas = document.createElement('canvas');
-        let ctx = canvas.getContext('2d');
-        canvas.width = data[1][0];
-        canvas.height = data[1][1];
+        //> resize image
+        let img_elm = document.createElement("img");
+        img_elm.src = capturing;
+        img_elm.onload = function() {
+            let resize_canvas = document.createElement("canvas");
+            // resize_canvas.width = img_elm.width;
+            // resize_canvas.height = img_elm.height;
+            resize_canvas.width = data[2][0];
+            resize_canvas.height = data[2][1];
+            let resize_ctx = resize_canvas.getContext("2d");
+            resize_ctx.drawImage(img_elm, 0, 0, data[2][0], data[2][1]);
+            console.log([data[2][0], img_elm.width, data[2][1], img_elm.height]);
+            // resize_ctx.scale(data[2][0] / img_elm.width, data[2][1] / img_elm.height);
+            let resized_imgurl = resize_canvas.toDataURL();
 
-        capturing_img.onload = function() {
-            ctx.drawImage(capturing_img, data[0][0], data[0][1], data[1][0], data[1][1], 0, 0, data[1][0], data[1][1]);
-            let gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
-            gettingActiveTab.then((tabs) => {
-                // console.log(tabs[0].id);
-                browser.tabs.sendMessage(tabs[0].id, canvas.toDataURL());
-            });
+            //> clip image
+            let capturing_img = document.createElement("img");
+            capturing_img.src = resized_imgurl;
+            let clip_canvas = document.createElement('canvas');
+            let clip_ctx = clip_canvas.getContext('2d');
+            clip_canvas.width = data[1][0];
+            clip_canvas.height = data[1][1];
+
+            capturing_img.onload = function() {
+                clip_ctx.drawImage(capturing_img, data[0][0], data[0][1], data[1][0], data[1][1], 0, 0, data[1][0], data[1][1]);
+                let gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
+                gettingActiveTab.then((tabs) => {
+                    // console.log(tabs[0].id);
+                    browser.tabs.sendMessage(tabs[0].id, [clip_canvas.toDataURL(), resized_imgurl]);
+                });
+            }
         }
+
 
         // let selected_img = canvas.toBlob();
         // console.log(canvas.toDataURL());
