@@ -34,13 +34,14 @@ function again_btn_clicked() {
 function drag_select_begin(e) {
     if (dont_start_select || is_on_certain_button) return;
     is_dragging = true;
-    console.log(e);
+    // console.log(e);
     mouse_start_pos = [e.clientX, e.clientY];
     // let root = document.getElementById("qrshot_root_element");
     squere = document.createElement("div");
     squere.id = "qrshot_squere";
     squere.style.left = mouse_start_pos[0];
     squere.style.top = mouse_start_pos[1];
+    squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
     // console.log(mouse_start_pos);
     root.appendChild(squere);
     root.removeChild(cancel_btn);
@@ -110,24 +111,33 @@ function go_evaluate(offset = [], cv_sz = []) {
 
     browser.runtime.onMessage.addListener(receive_result_from_background);
     browser.runtime.sendMessage([offset, cv_sz, [window.innerWidth, window.innerHeight]]);
-    // let capturing = browser.tabs.captureVisibleTab();
-    // capturing.then((imageUri) => { console.log(imageUri); }, (err) => { console.log(`Error: ${err}`); });
 }
 
-function receive_result_from_background_experiment(obj) {
-    document.body.appendChild(root);
-    // console.log(obj);
-    let experiment = document.createElement("img");
-    experiment.src = obj[0];
-    document.body.appendChild(experiment);
-    let exp2 = document.createElement("img");
-    exp2.src = obj[1];
-    document.body.appendChild(exp2);
-}
+// function receive_result_from_background_experiment(obj) {
+//     document.body.appendChild(root);
+//     // console.log(obj);
+//     let experiment = document.createElement("img");
+//     experiment.src = obj[0];
+//     document.body.appendChild(experiment);
+//     let exp2 = document.createElement("img");
+//     exp2.src = obj[1];
+//     document.body.appendChild(exp2);
+// }
 
-function receive_result_from_background(decoded_url) {
+function receive_result_from_background(decoded) {
     document.body.appendChild(root);
-    console.log(decoded_url);
+    if (decoded) {
+        console.log("decoded url: " + decoded.data);
+        let squere_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
+        squere.style.left = decoded.location.topLeftCorner.x + mouse_start_pos[0] - squere_padding + "px";
+        squere.style.top = decoded.location.topLeftCorner.y + mouse_start_pos[1] - squere_padding + "px";
+        squere.style.right = root.clientWidth - (decoded.location.bottomRightCorner.x + mouse_start_pos[0]) - squere_padding + "px";
+        squere.style.bottom = root.clientHeight - (decoded.location.bottomRightCorner.y + mouse_start_pos[1]) - squere_padding + "px";
+        squere.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
+
+    } else {
+        console.log("fail to recognize qrcode");
+    }
 }
 
 function setup_start_html_elements() {

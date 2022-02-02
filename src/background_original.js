@@ -41,7 +41,7 @@ function handle_capture(data = []) {
 
                 let gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
                 gettingActiveTab.then((tabs) => {
-                    browser.tabs.sendMessage(tabs[0].id, decoded ? decoded.data : null);
+                    browser.tabs.sendMessage(tabs[0].id, decoded);
                     // browser.tabs.sendMessage(tabs[0].id, [clip_canvas.toDataURL(), resized_imgurl]);
                 });
             }

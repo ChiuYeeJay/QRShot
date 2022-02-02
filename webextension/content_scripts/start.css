@@ -20,6 +20,7 @@
     height: 7%;
     bottom: 5%;
     font-size: larger;
+    border: solid rgba(255, 255, 255, 0.5) thin;
 }
 
 .qrshot_btn:hover {
@@ -27,6 +28,6 @@
 }
 
 #qrshot_squere {
-    background-color: rgba(255, 150, 150, 0.6);
+    /* background-color: rgba(255, 150, 150, 0.6); */
     position: absolute;
 }
