@@ -9,7 +9,11 @@
     },
 
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "tabs",
+        "clipboardWrite",
+        "contextMenus",
+        "<all_urls>"
     ],
 
     "background": {
