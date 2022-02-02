@@ -1,5 +1,4 @@
-// import jsQR from "jsqr";
-// console.warn("ooo");
+import jsQR from "jsqr";
 // inject the content script to the current tab
 function go_shooting() {
     browser.tabs.executeScript({ file: "/content_scripts/start.js" });
@@ -34,19 +33,19 @@ function handle_capture(data = []) {
 
             capturing_img.onload = function() {
                 clip_ctx.drawImage(capturing_img, data[0][0], data[0][1], data[1][0], data[1][1], 0, 0, data[1][0], data[1][1]);
+
+                //> decode QRcode
+                let imgdata = clip_ctx.getImageData(0, 0, data[1][0], data[1][1]);
+                let decoded = jsQR(imgdata.data, imgdata.width, imgdata.height);
+                console.log(decoded);
+
                 let gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
                 gettingActiveTab.then((tabs) => {
-                    // console.log(tabs[0].id);
-                    browser.tabs.sendMessage(tabs[0].id, [clip_canvas.toDataURL(), resized_imgurl]);
+                    browser.tabs.sendMessage(tabs[0].id, decoded.data);
+                    // browser.tabs.sendMessage(tabs[0].id, [clip_canvas.toDataURL(), resized_imgurl]);
                 });
             }
         }
-
-
-        // let selected_img = canvas.toBlob();
-        // console.log(canvas.toDataURL());
-        // capturing_img.src = canvas.toDataURL();
-
     }, (e) => { console.log("error: " + e); });
 
 

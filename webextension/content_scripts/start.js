@@ -114,7 +114,7 @@ function go_evaluate(offset = [], cv_sz = []) {
     // capturing.then((imageUri) => { console.log(imageUri); }, (err) => { console.log(`Error: ${err}`); });
 }
 
-function receive_result_from_background(obj) {
+function receive_result_from_background_experiment(obj) {
     document.body.appendChild(root);
     // console.log(obj);
     let experiment = document.createElement("img");
@@ -123,6 +123,11 @@ function receive_result_from_background(obj) {
     let exp2 = document.createElement("img");
     exp2.src = obj[1];
     document.body.appendChild(exp2);
+}
+
+function receive_result_from_background(decoded_url) {
+    document.body.appendChild(root);
+    console.log(decoded_url);
 }
 
 function setup_start_html_elements() {
