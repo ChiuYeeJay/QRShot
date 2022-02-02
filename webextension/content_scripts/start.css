@@ -29,5 +29,5 @@
 
 #qrshot_squere {
     /* background-color: rgba(255, 150, 150, 0.6); */
-    position: absolute;
+    position: fixed;
 }

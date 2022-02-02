@@ -17,6 +17,7 @@ var dont_start_select = false;
 var is_on_certain_button = false;
 var squere;
 var mouse_start_pos;
+var squere_lefttop;
 
 function cancel_btn_clicked() {
     // alert("cancel!");
@@ -41,7 +42,7 @@ function drag_select_begin(e) {
     squere.id = "qrshot_squere";
     squere.style.left = mouse_start_pos[0];
     squere.style.top = mouse_start_pos[1];
-    squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
+    squere.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
     // console.log(mouse_start_pos);
     root.appendChild(squere);
     root.removeChild(cancel_btn);
@@ -101,6 +102,7 @@ function drag_select_end(e) {
         offset[1] = e.clientY;
         cv_sz[1] = mouse_start_pos[1] - offset[1];
     }
+    squere_lefttop = offset;
 
     go_evaluate(offset, cv_sz);
 
@@ -129,14 +131,15 @@ function receive_result_from_background(decoded) {
     if (decoded) {
         console.log("decoded url: " + decoded.data);
         let squere_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
-        squere.style.left = decoded.location.topLeftCorner.x + mouse_start_pos[0] - squere_padding + "px";
-        squere.style.top = decoded.location.topLeftCorner.y + mouse_start_pos[1] - squere_padding + "px";
-        squere.style.right = root.clientWidth - (decoded.location.bottomRightCorner.x + mouse_start_pos[0]) - squere_padding + "px";
-        squere.style.bottom = root.clientHeight - (decoded.location.bottomRightCorner.y + mouse_start_pos[1]) - squere_padding + "px";
+        squere.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
+        squere.style.top = squere_lefttop[1] + decoded.location.topLeftCorner.y - squere_padding + "px";
+        squere.style.right = root.clientWidth - (squere_lefttop[0] + decoded.location.bottomRightCorner.x) - squere_padding + "px";
+        squere.style.bottom = root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding + "px";
         squere.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
 
     } else {
         console.log("fail to recognize qrcode");
+        squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
     }
 }
 
