@@ -22,3 +22,8 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 
 
 <img src="src/demo.gif" alt="demo2" style="zoom: 33%;" />
+
+## Todo
+
+- [ ] Better selecting square and remove flash light
+- [ ] Resolve the CSS interfere problem

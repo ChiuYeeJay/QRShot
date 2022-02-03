@@ -36,15 +36,18 @@
 #qrshot_result_board {
     position: absolute;
     background-color: rgb(10, 10, 10);
-    width: 250px;
-    height: 100px;
+    width: 300px;
     padding: 10px;
     border-width: 1px;
     border-style: solid;
     border-color: rgba(255, 255, 255, 0.7);
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.qrshot_result_line_container {
+    display: flex;
+    width: 100%;
 }
 
 #qrshot_result_text_field {
@@ -52,10 +55,16 @@
     color: rgb(200, 200, 200);
     border-style: none;
     font-size: 15px;
-    width: 230px;
+    width: 100%;
+    min-width: min-content;
+    max-width: none;
     height: 30px;
     margin: 10px;
-    grid-column: 1/4;
+    flex-grow: 1;
+}
+
+#qrshot_result_text_field:focus {
+    background-color: rgb(50, 50, 50);
 }
 
 .qrshot_result_board_btns {
@@ -67,6 +76,9 @@
     font-size: 15px;
     border: solid rgba(255, 255, 255, 0.5) thin;
     margin: 10px;
+    flex-grow: 1;
+    min-width: min-content;
+    max-width: none;
 }
 
 .qrshot_result_board_btns:hover {
@@ -79,10 +91,6 @@
     border: none;
 }
 
-#qrshot_result_text_field:focus {
-    background-color: rgb(50, 50, 50);
-}
-
 #qrshot_result_close_btn {
     position: absolute;
     top: 0px;
@@ -92,6 +100,8 @@
     color: azure;
     background-color: rgba(255, 112, 102, 0.8);
     border: none;
+    min-width: min-content;
+    max-width: none;
 }
 
 #qrshot_result_close_btn:hover {

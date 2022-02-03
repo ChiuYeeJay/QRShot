@@ -12,7 +12,12 @@ function start() {
 var root;
 var cancel_btn;
 var again_btn;
+
 var result_board;
+var result_text_field
+var result_go_btn
+var result_newtab_btn
+var result_copy_btn
 
 var is_dragging = false;
 var dont_start_select = false;
@@ -34,20 +39,20 @@ function again_btn_clicked() {
     squere.style.bottom = "auto";
     root.removeChild(again_btn);
     if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
-    if (result_board.childNodes[1].style.backgroundColor) result_board.childNodes[1].style.removeProperty("background-color");
+    if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     cancel_btn.style.left = "40%";
     dont_start_select = false;
     is_on_certain_button = false;
 }
 
 function result_go_tab_btn_clicked(type) {
-    browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_board.firstElementChild.value });
+    browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_text_field.value });
     document.body.removeChild(root);
 }
 
 function result_copy_btn_clicked() {
-    navigator.clipboard.writeText(result_board.firstElementChild.value);
-    result_board.childNodes[1].style.backgroundColor = "rgba(100, 255, 100, 0.4)";
+    navigator.clipboard.writeText(result_text_field.value);
+    result_copy_btn.style.backgroundColor = "rgba(100, 255, 100, 0.4)";
 }
 
 function result_close_btn_clicked() {
@@ -155,10 +160,10 @@ function receive_result_from_background(decoded) {
 
         //> result board
         let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
-        result_board.firstElementChild.value = decoded.data;
-        result_board.firstElementChild.disabled = is_url;
-        result_board.childNodes[2].disabled = !is_url;
-        result_board.childNodes[3].disabled = !is_url;
+        result_text_field.value = decoded.data;
+        result_text_field.disabled = is_url;
+        result_go_btn.disabled = !is_url;
+        result_newtab_btn.disabled = !is_url;
         if (root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding > 120) {
             result_board.style.top = (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding - 10 + "px";
             if (result_board.style.bottom) result_board.style.removeProperty("bottom");
@@ -224,30 +229,32 @@ function setup_start_html_elements() {
     //> result board
     result_board = document.createElement("div");
     result_board.id = "qrshot_result_board";
+    // result_board.style.width = "300px";
+    // result_board.style.height = "100px";
 
-    let result_text_field = document.createElement("input");
+    result_text_field = document.createElement("input");
     result_text_field.id = "qrshot_result_text_field";
     result_text_field.type = "text";
 
-    let result_go_btn = document.createElement("button");
+    result_go_btn = document.createElement("button");
     result_go_btn.id = "qrshot_result_go_btn";
     result_go_btn.classList.add("qrshot_result_board_btns");
     result_go_btn.innerText = "Go";
     result_go_btn.addEventListener("click", () => { result_go_tab_btn_clicked("go") });
 
-    let result_newtab_btn = document.createElement("button");
+    result_newtab_btn = document.createElement("button");
     result_newtab_btn.id = "qrshot_result_newtab_btn";
     result_newtab_btn.classList.add("qrshot_result_board_btns");
     result_newtab_btn.innerText = "NewTab";
     result_newtab_btn.addEventListener("click", () => { result_go_tab_btn_clicked("newtab") });
 
-    let result_copy_btn = document.createElement("button");
+    result_copy_btn = document.createElement("button");
     result_copy_btn.id = "qrshot_result_copy_btn";
     result_copy_btn.classList.add("qrshot_result_board_btns");
     result_copy_btn.innerText = "Copy";
     result_copy_btn.addEventListener("click", result_copy_btn_clicked);
     result_text_field.addEventListener("input", () => {
-        if (result_board.childNodes[1].style.backgroundColor) result_board.childNodes[1].style.removeProperty("background-color");
+        if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     });
 
     let result_close_btn = document.createElement("button");
@@ -255,10 +262,17 @@ function setup_start_html_elements() {
     result_close_btn.innerText = "X";
     result_close_btn.addEventListener("click", result_close_btn_clicked);
 
-    result_board.appendChild(result_text_field);
-    result_board.appendChild(result_copy_btn);
-    result_board.appendChild(result_go_btn);
-    result_board.appendChild(result_newtab_btn);
+    let result_line_container_up = document.createElement("div");
+    result_line_container_up.classList.add("qrshot_result_line_container");
+    result_line_container_up.appendChild(result_text_field);
+    let result_line_container_down = document.createElement("div");
+    result_line_container_down.classList.add("qrshot_result_line_container");
+    result_line_container_down.appendChild(result_copy_btn);
+    result_line_container_down.appendChild(result_go_btn);
+    result_line_container_down.appendChild(result_newtab_btn);
+
+    result_board.appendChild(result_line_container_up);
+    result_board.appendChild(result_line_container_down);
     result_board.appendChild(result_close_btn);
     // root.appendChild(result_board);
 

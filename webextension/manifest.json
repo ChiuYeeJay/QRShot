@@ -5,7 +5,7 @@
 
     "description": "This extension allow you to screenshot part of the webpage and scan the qrcode in it.",
     "icons": {
-        "32": "/icons/qrshot_icon.png"
+        "48": "/icons/icon-48.png"
     },
 
     "permissions": [
@@ -20,7 +20,7 @@
     },
 
     "browser_action": {
-        "default_icon": "/icons/qrshot_icon.png",
+        "default_icon": "/icons/icon-32.png",
         "default_title": "qrshot"
     }
 }
