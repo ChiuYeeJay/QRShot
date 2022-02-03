@@ -16,7 +16,7 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 
 ## Installation
 
-- Download in firefox extension store (in the future)
+- ~~Download on  [AMO](https://addons.mozilla.org)~~ (in the future)
 
 - Clone this repository, and run [web-ext](https://www.npmjs.com/package/web-ext). 
 - Clone this repository, and open the Firefox [about:debugging](https://developer.mozilla.org/en-US/docs/Tools/about:debugging) page, click the This Firefox option, click the Load Temporary Add-on  button, then select `webextension/manifest.json`.
@@ -25,3 +25,4 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 
 - [ ] Better selecting square and remove flash light
 - [ ] Resolve the CSS interfere problem
+- [ ] Submit to AMO
