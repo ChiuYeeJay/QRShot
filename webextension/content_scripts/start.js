@@ -22,9 +22,9 @@ var result_copy_btn
 var is_dragging = false;
 var dont_start_select = false;
 var is_on_certain_button = false;
-var squere;
+var aquare;
 var mouse_start_pos;
-var squere_lefttop;
+var aquare_lefttop;
 
 function cancel_btn_clicked() {
     // alert("cancel!");
@@ -32,11 +32,11 @@ function cancel_btn_clicked() {
 }
 
 function again_btn_clicked() {
-    root.removeChild(squere);
-    squere.style.left = "auto";
-    squere.style.right = "auto";
-    squere.style.top = "auto";
-    squere.style.bottom = "auto";
+    root.removeChild(aquare);
+    aquare.style.left = "auto";
+    aquare.style.right = "auto";
+    aquare.style.top = "auto";
+    aquare.style.bottom = "auto";
     root.removeChild(again_btn);
     if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
@@ -66,11 +66,11 @@ function drag_select_begin(e) {
     // console.log(e);
     mouse_start_pos = [e.clientX, e.clientY];
     // let root = document.getElementById("qrshot_root_element");
-    squere.style.left = mouse_start_pos[0];
-    squere.style.top = mouse_start_pos[1];
-    squere.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
+    aquare.style.left = mouse_start_pos[0];
+    aquare.style.top = mouse_start_pos[1];
+    aquare.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
     // console.log(mouse_start_pos);
-    root.appendChild(squere);
+    root.appendChild(aquare);
     root.removeChild(cancel_btn);
     // if (again_btn) root.removeChild(again_btn);
 }
@@ -79,18 +79,18 @@ function drag_selecting(e) {
     if (!is_dragging) return;
     // let root = document.getElementById("qrshot_root_element");
     if (mouse_start_pos[0] < e.clientX) {
-        squere.style.left = mouse_start_pos[0] + "px";
-        squere.style.right = (root.clientWidth - e.clientX) + "px";
+        aquare.style.left = mouse_start_pos[0] + "px";
+        aquare.style.right = (root.clientWidth - e.clientX) + "px";
     } else {
-        squere.style.left = e.clientX + "px";
-        squere.style.right = (root.clientWidth - mouse_start_pos[0]) + "px";
+        aquare.style.left = e.clientX + "px";
+        aquare.style.right = (root.clientWidth - mouse_start_pos[0]) + "px";
     }
     if (mouse_start_pos[1] < e.clientY) {
-        squere.style.top = mouse_start_pos[1] + "px";
-        squere.style.bottom = (root.clientHeight - e.clientY) + "px";
+        aquare.style.top = mouse_start_pos[1] + "px";
+        aquare.style.bottom = (root.clientHeight - e.clientY) + "px";
     } else {
-        squere.style.top = e.clientY + "px";
-        squere.style.bottom = (root.clientHeight - mouse_start_pos[1]) + "px";
+        aquare.style.top = e.clientY + "px";
+        aquare.style.bottom = (root.clientHeight - mouse_start_pos[1]) + "px";
     }
 }
 
@@ -124,7 +124,7 @@ function drag_select_end(e) {
         offset[1] = e.clientY;
         cv_sz[1] = mouse_start_pos[1] - offset[1];
     }
-    squere_lefttop = offset;
+    aquare_lefttop = offset;
 
     document.body.removeChild(root);
     let data = {
@@ -150,13 +150,13 @@ function receive_result_from_background(decoded) {
     document.body.appendChild(root);
     if (decoded) {
         // console.log("decoded url: " + decoded.data);
-        //> focus squere
-        let squere_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
-        squere.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
-        squere.style.top = squere_lefttop[1] + decoded.location.topLeftCorner.y - squere_padding + "px";
-        squere.style.right = root.clientWidth - (squere_lefttop[0] + decoded.location.bottomRightCorner.x) - squere_padding + "px";
-        squere.style.bottom = root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding + "px";
-        squere.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
+        //> focus aquare
+        let aquare_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
+        aquare.style.left = aquare_lefttop[0] + decoded.location.topLeftCorner.x - aquare_padding + "px";
+        aquare.style.top = aquare_lefttop[1] + decoded.location.topLeftCorner.y - aquare_padding + "px";
+        aquare.style.right = root.clientWidth - (aquare_lefttop[0] + decoded.location.bottomRightCorner.x) - aquare_padding + "px";
+        aquare.style.bottom = root.clientHeight - (aquare_lefttop[1] + decoded.location.bottomRightCorner.y) - aquare_padding + "px";
+        aquare.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
 
         //> result board
         let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
@@ -164,15 +164,15 @@ function receive_result_from_background(decoded) {
         result_text_field.disabled = is_url;
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
-        if (root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding > 120) {
-            result_board.style.top = (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding - 10 + "px";
+        if (root.clientHeight - (aquare_lefttop[1] + decoded.location.bottomRightCorner.y) - aquare_padding > 120) {
+            result_board.style.top = (aquare_lefttop[1] + decoded.location.bottomRightCorner.y) - aquare_padding - 10 + "px";
             if (result_board.style.bottom) result_board.style.removeProperty("bottom");
         } else {
             if (result_board.style.top) result_board.style.removeProperty("top");
             result_board.style.bottom = "0px";
         }
-        if (root.clientWidth - (squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding) > 272) {
-            result_board.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
+        if (root.clientWidth - (aquare_lefttop[0] + decoded.location.topLeftCorner.x - aquare_padding) > 272) {
+            result_board.style.left = aquare_lefttop[0] + decoded.location.topLeftCorner.x - aquare_padding + "px";
             if (result_board.style.right) result_board.style.removeProperty("right");
         } else {
             result_board.style.right = "0px";
@@ -181,7 +181,7 @@ function receive_result_from_background(decoded) {
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
-        squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
+        aquare.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
     }
 }
 
@@ -222,9 +222,9 @@ function setup_start_html_elements() {
     again_btn.addEventListener("mouseleave", () => { is_on_certain_button = false; });
     again_btn.innerText = "Again";
 
-    //> squere 
-    squere = document.createElement("div");
-    squere.id = "qrshot_squere";
+    //> aquare 
+    aquare = document.createElement("div");
+    aquare.id = "qrshot_aquare";
 
     //> result board
     result_board = document.createElement("div");
