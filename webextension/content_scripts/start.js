@@ -11,6 +11,7 @@ function start() {
 var root;
 var cancel_btn;
 var again_btn;
+var result_board;
 
 var is_dragging = false;
 var dont_start_select = false;
@@ -26,10 +27,19 @@ function cancel_btn_clicked() {
 
 function again_btn_clicked() {
     root.removeChild(squere);
+    squere.style.left = "auto";
+    squere.style.right = "auto";
+    squere.style.top = "auto";
+    squere.style.bottom = "auto";
     root.removeChild(again_btn);
+    root.removeChild(result_board);
     cancel_btn.style.left = "40%";
     dont_start_select = false;
     is_on_certain_button = false;
+}
+
+function result_go_btn_clicked() {
+
 }
 
 function drag_select_begin(e) {
@@ -38,8 +48,6 @@ function drag_select_begin(e) {
     // console.log(e);
     mouse_start_pos = [e.clientX, e.clientY];
     // let root = document.getElementById("qrshot_root_element");
-    squere = document.createElement("div");
-    squere.id = "qrshot_squere";
     squere.style.left = mouse_start_pos[0];
     squere.style.top = mouse_start_pos[1];
     squere.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
@@ -71,6 +79,10 @@ function drag_selecting(e) {
 function drag_select_end(e) {
     if (!is_dragging) return;
     is_dragging = false;
+    if (mouse_start_pos[0] == e.clientX || mouse_start_pos[0] == e.clientY) {
+        root.appendChild(cancel_btn);
+        return;
+    }
     dont_start_select = true;
 
     // let root = document.getElementById("qrshot_root_element");
@@ -130,6 +142,7 @@ function receive_result_from_background(decoded) {
     document.body.appendChild(root);
     if (decoded) {
         console.log("decoded url: " + decoded.data);
+        //> focus squere
         let squere_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
         squere.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
         squere.style.top = squere_lefttop[1] + decoded.location.topLeftCorner.y - squere_padding + "px";
@@ -137,6 +150,11 @@ function receive_result_from_background(decoded) {
         squere.style.bottom = root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding + "px";
         squere.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
 
+        // result_board = document.createElement("div");
+        // console.log(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
+        result_board.firstElementChild.value = decoded.data;
+        result_board.lastElementChild.disabled = !(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
+        root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
         squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
@@ -159,6 +177,37 @@ function setup_start_html_elements() {
     cancel_btn.addEventListener("mouseleave", () => { is_on_certain_button = false; });
     cancel_btn.innerText = "Cancel";
     root.appendChild(cancel_btn);
+
+    squere = document.createElement("div");
+    squere.id = "qrshot_squere";
+
+    result_board = document.createElement("div");
+    result_board.id = "qrshot_result_board";
+    let result_text_field = document.createElement("input");
+    result_text_field.id = "qrshot_result_text_field";
+    result_text_field.type = "text";
+    let result_go_btn = document.createElement("button");
+    result_go_btn.id = "qrshot_result_go_btn";
+    result_go_btn.classList.add("qrshot_result_board_btns");
+    result_go_btn.innerText = "Go";
+    result_go_btn.addEventListener("click", result_go_btn_clicked);
+    let result_newtab_btn = document.createElement("button");
+    result_newtab_btn.id = "qrshot_result_newtab_btn";
+    result_newtab_btn.classList.add("qrshot_result_board_btns");
+    result_newtab_btn.innerText = "NewTab";
+    result_newtab_btn.addEventListener("click", result_go_btn_clicked);
+    let result_copy_btn = document.createElement("button");
+    result_copy_btn.id = "qrshot_result_copy_btn";
+    result_copy_btn.classList.add("qrshot_result_board_btns");
+    result_copy_btn.innerText = "Copy";
+    result_copy_btn.addEventListener("click", result_go_btn_clicked);
+    result_board.appendChild(result_text_field);
+    result_board.appendChild(result_copy_btn);
+    result_board.appendChild(result_go_btn);
+    result_board.appendChild(result_newtab_btn);
+
+    root.appendChild(result_board);
+
     document.body.appendChild(root);
 }
 

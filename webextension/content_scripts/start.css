@@ -18,16 +18,58 @@
     border: 1px rgba(255, 255, 255, 0.7);
     width: 20%;
     height: 7%;
+    min-height: 22px;
+    min-width: 5px;
     bottom: 5%;
     font-size: larger;
     border: solid rgba(255, 255, 255, 0.5) thin;
 }
 
 .qrshot_btn:hover {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 #qrshot_squere {
-    /* background-color: rgba(255, 150, 150, 0.6); */
     position: fixed;
+}
+
+#qrshot_result_board {
+    /* position: fixed; */
+    background-color: rgb(10, 10, 10);
+    width: 250px;
+    height: 100px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+    padding: 10px;
+}
+
+#qrshot_result_text_field {
+    background-color: rgb(30, 30, 30);
+    color: rgb(200, 200, 200);
+    border-style: none;
+    font-size: 15px;
+    width: 230px;
+    height: 30px;
+    margin: 10px;
+    grid-column: 1/4;
+}
+
+.qrshot_result_board_btns {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: azure;
+    border: 1px rgba(255, 255, 255, 0.7);
+    height: 30px;
+    font-size: 15px;
+    border: solid rgba(255, 255, 255, 0.5) thin;
+    margin: 10px;
+}
+
+.qrshot_result_board_btns:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+#qrshot_result_text_field:focus {
+    background-color: rgb(50, 50, 50);
 }
