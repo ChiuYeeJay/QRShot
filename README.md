@@ -12,16 +12,14 @@ QRShot是一個firefox的附加元件，點擊toolbar的按鈕，然後像是螢
 
 QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/jsQR)庫來解析QR code圖片。
 
+<img src="src/demo.gif" alt="demo2" style="zoom: 33%;" />
+
 ## Installation
 
 - Download in firefox extension store (in the future)
 
 - Clone this repository, and run [web-ext](https://www.npmjs.com/package/web-ext). 
 - Clone this repository, and open the Firefox [about:debugging](https://developer.mozilla.org/en-US/docs/Tools/about:debugging) page, click the This Firefox option, click the Load Temporary Add-on  button, then select `webextension/manifest.json`.
-
-
-
-<img src="src/demo.gif" alt="demo2" style="zoom: 33%;" />
 
 ## Todo
 
