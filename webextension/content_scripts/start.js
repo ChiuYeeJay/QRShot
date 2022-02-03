@@ -41,11 +41,11 @@ function again_btn_clicked() {
 }
 
 function result_go_tab_btn_clicked(type) {
-
+    browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_board.firstElementChild.value })
 }
 
 function result_copy_btn_clicked() {
-
+    navigator.clipboard.writeText(result_board.firstElementChild.value);
 }
 
 function drag_select_begin(e) {
@@ -114,13 +114,7 @@ function drag_select_end(e) {
     }
     squere_lefttop = offset;
 
-    go_evaluate(offset, cv_sz);
-
-}
-
-function go_evaluate(offset = [], cv_sz = []) {
     document.body.removeChild(root);
-
     let data = {
         offset_x: offset[0],
         offset_y: offset[1],
@@ -135,6 +129,8 @@ function go_evaluate(offset = [], cv_sz = []) {
 function msg_handler(msg) {
     if (msg.msg_type == "decode_result") {
         receive_result_from_background(msg.data);
+    } else if (msg.msg_type == "error_report") {
+        something_wrong_from_background(msg.data);
     }
 }
 
@@ -153,14 +149,24 @@ function receive_result_from_background(decoded) {
 
         // result_board = document.createElement("div");
         // console.log(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
+        let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
         result_board.firstElementChild.value = decoded.data;
-        result_board.childNodes[2].disabled = !(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
-        result_board.childNodes[3].disabled = !(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
+        result_board.firstElementChild.disabled = is_url;
+        result_board.childNodes[2].disabled = !is_url;
+        result_board.childNodes[3].disabled = !is_url;
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
         decode_sucess = false;
         squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
+    }
+}
+
+function something_wrong_from_background(error_str) {
+    alert("qrshot error: " + error_str);
+    let r = document.getElementById("qrshot_root_element");
+    if (r != null) {
+        document.body.removeChild(r);
     }
 }
 

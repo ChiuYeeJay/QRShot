@@ -8,6 +8,10 @@ function go_shooting() {
 function msg_handler(msg) {
     if (msg.msg_type == "qrcode_decode") {
         handle_capture(msg.data);
+    } else if (msg.msg_type == "url_go") {
+        url_go(msg.data);
+    } else if (msg.msg_type == "url_newtab") {
+        url_newtab(msg.data);
     }
 }
 
@@ -53,6 +57,28 @@ function handle_capture(data) {
             }
         }
     }, (e) => { console.log("error: " + e); });
+}
+
+function url_go(url) {
+    browser.tabs.update({ url: url }).then(() => {
+        console.log("go to new url:" + url);
+    }, (err) => {
+        let gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
+        gettingActiveTab.then((tabs) => {
+            browser.tabs.sendMessage(tabs[0].id, { msg_type: "error_report", data: err });
+        });
+    });
+}
+
+function url_newtab(url) {
+    browser.tabs.create({ url: url }).then(() => {
+        console.log("new tab with new url:" + url);
+    }, (err) => {
+        let gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
+        gettingActiveTab.then((tabs) => {
+            browser.tabs.sendMessage(tabs[0].id, { msg_type: "error_report", data: err });
+        });
+    });
 }
 
 browser.runtime.onMessage.addListener(msg_handler);
