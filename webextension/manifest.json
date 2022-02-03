@@ -4,6 +4,10 @@
     "version": "0.1",
 
     "description": "This extension allow you to screenshot part of the webpage and scan the qrcode in it.",
+    "developer": {
+        "name": "ChiuYeeJay",
+        "url": "https://github.com/ChiuYeeJay/QRShot"
+    },
     "icons": {
         "48": "/icons/icon-48.png"
     },
