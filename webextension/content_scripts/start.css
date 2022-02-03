@@ -82,3 +82,18 @@
 #qrshot_result_text_field:focus {
     background-color: rgb(50, 50, 50);
 }
+
+#qrshot_result_close_btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    color: azure;
+    background-color: rgba(255, 112, 102, 0.8);
+    border: none;
+}
+
+#qrshot_result_close_btn:hover {
+    background-color: rgba(255, 43, 28, 0.8);
+}

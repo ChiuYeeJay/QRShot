@@ -20,7 +20,7 @@ var is_on_certain_button = false;
 var squere;
 var mouse_start_pos;
 var squere_lefttop;
-var decode_sucess = false;
+var resultboard_exist = false;
 
 function cancel_btn_clicked() {
     // alert("cancel!");
@@ -34,7 +34,8 @@ function again_btn_clicked() {
     squere.style.top = "auto";
     squere.style.bottom = "auto";
     root.removeChild(again_btn);
-    if (decode_sucess) root.removeChild(result_board);
+    if (resultboard_exist) root.removeChild(result_board);
+    if (result_board.childNodes[1].style.backgroundColor) result_board.childNodes[1].style.removeProperty("background-color");
     cancel_btn.style.left = "40%";
     dont_start_select = false;
     is_on_certain_button = false;
@@ -46,6 +47,12 @@ function result_go_tab_btn_clicked(type) {
 
 function result_copy_btn_clicked() {
     navigator.clipboard.writeText(result_board.firstElementChild.value);
+    result_board.childNodes[1].style.backgroundColor = "rgba(100, 255, 100, 0.4)";
+}
+
+function result_close_btn_clicked() {
+    root.removeChild(result_board);
+    resultboard_exist = false;
 }
 
 function drag_select_begin(e) {
@@ -138,7 +145,7 @@ function receive_result_from_background(decoded) {
     document.body.appendChild(root);
     if (decoded) {
         // console.log("decoded url: " + decoded.data);
-        decode_sucess = true;
+        resultboard_exist = true;
         //> focus squere
         let squere_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
         squere.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
@@ -154,10 +161,25 @@ function receive_result_from_background(decoded) {
         result_board.firstElementChild.disabled = is_url;
         result_board.childNodes[2].disabled = !is_url;
         result_board.childNodes[3].disabled = !is_url;
+        // if(result_board.style.inset) result_board.style.removeProperty("")
+        if (root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding > 120) {
+            result_board.style.top = (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding - 10 + "px";
+            if (result_board.style.bottom) result_board.style.removeProperty("bottom");
+        } else {
+            if (result_board.style.top) result_board.style.removeProperty("top");
+            result_board.style.bottom = "0px";
+        }
+        if (root.clientWidth - (squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding) > 272) {
+            result_board.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
+            if (result_board.style.right) result_board.style.removeProperty("right");
+        } else {
+            result_board.style.right = "0px";
+            if (result_board.style.left) result_board.style.removeProperty("left");
+        }
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
-        decode_sucess = false;
+        resultboard_exist = false;
         squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
     }
 }
@@ -228,11 +250,20 @@ function setup_start_html_elements() {
     result_copy_btn.classList.add("qrshot_result_board_btns");
     result_copy_btn.innerText = "Copy";
     result_copy_btn.addEventListener("click", result_copy_btn_clicked);
+    result_text_field.addEventListener("input", () => {
+        if (result_board.childNodes[1].style.backgroundColor) result_board.childNodes[1].style.removeProperty("background-color");
+    });
+
+    let result_close_btn = document.createElement("button");
+    result_close_btn.id = "qrshot_result_close_btn";
+    result_close_btn.innerText = "X";
+    result_close_btn.addEventListener("click", result_close_btn_clicked);
 
     result_board.appendChild(result_text_field);
     result_board.appendChild(result_copy_btn);
     result_board.appendChild(result_go_btn);
     result_board.appendChild(result_newtab_btn);
+    result_board.appendChild(result_close_btn);
     // root.appendChild(result_board);
 
     //> append root to body
