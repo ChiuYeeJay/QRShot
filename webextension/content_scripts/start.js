@@ -20,7 +20,6 @@ var is_on_certain_button = false;
 var squere;
 var mouse_start_pos;
 var squere_lefttop;
-var resultboard_exist = false;
 
 function cancel_btn_clicked() {
     // alert("cancel!");
@@ -34,7 +33,7 @@ function again_btn_clicked() {
     squere.style.top = "auto";
     squere.style.bottom = "auto";
     root.removeChild(again_btn);
-    if (resultboard_exist) root.removeChild(result_board);
+    if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
     if (result_board.childNodes[1].style.backgroundColor) result_board.childNodes[1].style.removeProperty("background-color");
     cancel_btn.style.left = "40%";
     dont_start_select = false;
@@ -42,7 +41,8 @@ function again_btn_clicked() {
 }
 
 function result_go_tab_btn_clicked(type) {
-    browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_board.firstElementChild.value })
+    browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_board.firstElementChild.value });
+    document.body.removeChild(root);
 }
 
 function result_copy_btn_clicked() {
@@ -52,7 +52,7 @@ function result_copy_btn_clicked() {
 
 function result_close_btn_clicked() {
     root.removeChild(result_board);
-    resultboard_exist = false;
+    document.body.removeChild(root);
 }
 
 function drag_select_begin(e) {
@@ -145,7 +145,6 @@ function receive_result_from_background(decoded) {
     document.body.appendChild(root);
     if (decoded) {
         // console.log("decoded url: " + decoded.data);
-        resultboard_exist = true;
         //> focus squere
         let squere_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
         squere.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
@@ -154,14 +153,12 @@ function receive_result_from_background(decoded) {
         squere.style.bottom = root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding + "px";
         squere.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
 
-        // result_board = document.createElement("div");
-        // console.log(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
+        //> result board
         let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
         result_board.firstElementChild.value = decoded.data;
         result_board.firstElementChild.disabled = is_url;
         result_board.childNodes[2].disabled = !is_url;
         result_board.childNodes[3].disabled = !is_url;
-        // if(result_board.style.inset) result_board.style.removeProperty("")
         if (root.clientHeight - (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding > 120) {
             result_board.style.top = (squere_lefttop[1] + decoded.location.bottomRightCorner.y) - squere_padding - 10 + "px";
             if (result_board.style.bottom) result_board.style.removeProperty("bottom");
@@ -179,7 +176,6 @@ function receive_result_from_background(decoded) {
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
-        resultboard_exist = false;
         squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
     }
 }
