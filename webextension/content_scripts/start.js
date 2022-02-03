@@ -1,5 +1,4 @@
 function start() {
-    // alert("start!");
     let r = document.getElementById("qrshot_root_element");
     if (r != null) {
         document.body.removeChild(r);
@@ -22,21 +21,20 @@ var result_copy_btn
 var is_dragging = false;
 var dont_start_select = false;
 var is_on_certain_button = false;
-var aquare;
+var square;
 var mouse_start_pos;
-var aquare_lefttop;
+var square_lefttop;
 
 function cancel_btn_clicked() {
-    // alert("cancel!");
     document.body.removeChild(document.getElementById("qrshot_root_element"));
 }
 
 function again_btn_clicked() {
-    root.removeChild(aquare);
-    aquare.style.left = "auto";
-    aquare.style.right = "auto";
-    aquare.style.top = "auto";
-    aquare.style.bottom = "auto";
+    root.removeChild(square);
+    square.style.left = "auto";
+    square.style.right = "auto";
+    square.style.top = "auto";
+    square.style.bottom = "auto";
     root.removeChild(again_btn);
     if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
@@ -45,6 +43,7 @@ function again_btn_clicked() {
     is_on_certain_button = false;
 }
 
+// result_go_btn or result_newtab_btn clicked
 function result_go_tab_btn_clicked(type) {
     browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_text_field.value });
     document.body.removeChild(root);
@@ -60,40 +59,38 @@ function result_close_btn_clicked() {
     document.body.removeChild(root);
 }
 
+// called when mouse down on root element
 function drag_select_begin(e) {
     if (dont_start_select || is_on_certain_button) return;
     is_dragging = true;
-    // console.log(e);
     mouse_start_pos = [e.clientX, e.clientY];
-    // let root = document.getElementById("qrshot_root_element");
-    aquare.style.left = mouse_start_pos[0];
-    aquare.style.top = mouse_start_pos[1];
-    aquare.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
-    // console.log(mouse_start_pos);
-    root.appendChild(aquare);
+    square.style.left = mouse_start_pos[0];
+    square.style.top = mouse_start_pos[1];
+    square.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
+    root.appendChild(square);
     root.removeChild(cancel_btn);
-    // if (again_btn) root.removeChild(again_btn);
 }
 
+// called when mouse move on root element
 function drag_selecting(e) {
     if (!is_dragging) return;
-    // let root = document.getElementById("qrshot_root_element");
     if (mouse_start_pos[0] < e.clientX) {
-        aquare.style.left = mouse_start_pos[0] + "px";
-        aquare.style.right = (root.clientWidth - e.clientX) + "px";
+        square.style.left = mouse_start_pos[0] + "px";
+        square.style.right = (root.clientWidth - e.clientX) + "px";
     } else {
-        aquare.style.left = e.clientX + "px";
-        aquare.style.right = (root.clientWidth - mouse_start_pos[0]) + "px";
+        square.style.left = e.clientX + "px";
+        square.style.right = (root.clientWidth - mouse_start_pos[0]) + "px";
     }
     if (mouse_start_pos[1] < e.clientY) {
-        aquare.style.top = mouse_start_pos[1] + "px";
-        aquare.style.bottom = (root.clientHeight - e.clientY) + "px";
+        square.style.top = mouse_start_pos[1] + "px";
+        square.style.bottom = (root.clientHeight - e.clientY) + "px";
     } else {
-        aquare.style.top = e.clientY + "px";
-        aquare.style.bottom = (root.clientHeight - mouse_start_pos[1]) + "px";
+        square.style.top = e.clientY + "px";
+        square.style.bottom = (root.clientHeight - mouse_start_pos[1]) + "px";
     }
 }
 
+// called when mouse up on root element
 function drag_select_end(e) {
     if (!is_dragging) return;
     is_dragging = false;
@@ -103,7 +100,6 @@ function drag_select_end(e) {
     }
     dont_start_select = true;
 
-    // let root = document.getElementById("qrshot_root_element");
     cancel_btn.style.left = "23%"
     root.appendChild(cancel_btn);
     root.appendChild(again_btn);
@@ -124,7 +120,7 @@ function drag_select_end(e) {
         offset[1] = e.clientY;
         cv_sz[1] = mouse_start_pos[1] - offset[1];
     }
-    aquare_lefttop = offset;
+    square_lefttop = offset;
 
     document.body.removeChild(root);
     let data = {
@@ -149,14 +145,13 @@ function msg_handler(msg) {
 function receive_result_from_background(decoded) {
     document.body.appendChild(root);
     if (decoded) {
-        // console.log("decoded url: " + decoded.data);
-        //> focus aquare
-        let aquare_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
-        aquare.style.left = aquare_lefttop[0] + decoded.location.topLeftCorner.x - aquare_padding + "px";
-        aquare.style.top = aquare_lefttop[1] + decoded.location.topLeftCorner.y - aquare_padding + "px";
-        aquare.style.right = root.clientWidth - (aquare_lefttop[0] + decoded.location.bottomRightCorner.x) - aquare_padding + "px";
-        aquare.style.bottom = root.clientHeight - (aquare_lefttop[1] + decoded.location.bottomRightCorner.y) - aquare_padding + "px";
-        aquare.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
+        //> focus square
+        let square_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
+        square.style.left = square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding + "px";
+        square.style.top = square_lefttop[1] + decoded.location.topLeftCorner.y - square_padding + "px";
+        square.style.right = root.clientWidth - (square_lefttop[0] + decoded.location.bottomRightCorner.x) - square_padding + "px";
+        square.style.bottom = root.clientHeight - (square_lefttop[1] + decoded.location.bottomRightCorner.y) - square_padding + "px";
+        square.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
 
         //> result board
         let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
@@ -164,15 +159,15 @@ function receive_result_from_background(decoded) {
         result_text_field.disabled = is_url;
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
-        if (root.clientHeight - (aquare_lefttop[1] + decoded.location.bottomRightCorner.y) - aquare_padding > 120) {
-            result_board.style.top = (aquare_lefttop[1] + decoded.location.bottomRightCorner.y) - aquare_padding - 10 + "px";
+        if (root.clientHeight - (square_lefttop[1] + decoded.location.bottomRightCorner.y) - square_padding > 120) {
+            result_board.style.top = (square_lefttop[1] + decoded.location.bottomRightCorner.y) - square_padding - 10 + "px";
             if (result_board.style.bottom) result_board.style.removeProperty("bottom");
         } else {
             if (result_board.style.top) result_board.style.removeProperty("top");
             result_board.style.bottom = "0px";
         }
-        if (root.clientWidth - (aquare_lefttop[0] + decoded.location.topLeftCorner.x - aquare_padding) > 272) {
-            result_board.style.left = aquare_lefttop[0] + decoded.location.topLeftCorner.x - aquare_padding + "px";
+        if (root.clientWidth - (square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding) > 272) {
+            result_board.style.left = square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding + "px";
             if (result_board.style.right) result_board.style.removeProperty("right");
         } else {
             result_board.style.right = "0px";
@@ -181,7 +176,7 @@ function receive_result_from_background(decoded) {
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
-        aquare.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
+        square.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
     }
 }
 
@@ -222,15 +217,13 @@ function setup_start_html_elements() {
     again_btn.addEventListener("mouseleave", () => { is_on_certain_button = false; });
     again_btn.innerText = "Again";
 
-    //> aquare 
-    aquare = document.createElement("div");
-    aquare.id = "qrshot_aquare";
+    //> square 
+    square = document.createElement("div");
+    square.id = "qrshot_square";
 
     //> result board
     result_board = document.createElement("div");
     result_board.id = "qrshot_result_board";
-    // result_board.style.width = "300px";
-    // result_board.style.height = "100px";
 
     result_text_field = document.createElement("input");
     result_text_field.id = "qrshot_result_text_field";
