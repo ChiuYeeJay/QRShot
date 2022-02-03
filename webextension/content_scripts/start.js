@@ -5,6 +5,7 @@ function start() {
         document.body.removeChild(r);
     } else {
         setup_start_html_elements();
+        browser.runtime.onMessage.addListener(msg_handler);
     }
 }
 
@@ -19,6 +20,7 @@ var is_on_certain_button = false;
 var squere;
 var mouse_start_pos;
 var squere_lefttop;
+var decode_sucess = false;
 
 function cancel_btn_clicked() {
     // alert("cancel!");
@@ -32,13 +34,17 @@ function again_btn_clicked() {
     squere.style.top = "auto";
     squere.style.bottom = "auto";
     root.removeChild(again_btn);
-    root.removeChild(result_board);
+    if (decode_sucess) root.removeChild(result_board);
     cancel_btn.style.left = "40%";
     dont_start_select = false;
     is_on_certain_button = false;
 }
 
-function result_go_btn_clicked() {
+function result_go_tab_btn_clicked(type) {
+
+}
+
+function result_copy_btn_clicked() {
 
 }
 
@@ -88,14 +94,6 @@ function drag_select_end(e) {
     // let root = document.getElementById("qrshot_root_element");
     cancel_btn.style.left = "23%"
     root.appendChild(cancel_btn);
-    again_btn = document.createElement("button");
-    again_btn.id = "qrshot_again_btn";
-    again_btn.style.right = "23%";
-    again_btn.classList.add("qrshot_btn");
-    again_btn.addEventListener("click", again_btn_clicked);
-    again_btn.addEventListener("mouseenter", () => { is_on_certain_button = true; });
-    again_btn.addEventListener("mouseleave", () => { is_on_certain_button = false; });
-    again_btn.innerText = "Again";
     root.appendChild(again_btn);
 
     let offset = [0, 0];
@@ -123,25 +121,28 @@ function drag_select_end(e) {
 function go_evaluate(offset = [], cv_sz = []) {
     document.body.removeChild(root);
 
-    browser.runtime.onMessage.addListener(receive_result_from_background);
-    browser.runtime.sendMessage([offset, cv_sz, [window.innerWidth, window.innerHeight]]);
+    let data = {
+        offset_x: offset[0],
+        offset_y: offset[1],
+        cv_width: cv_sz[0],
+        cv_height: cv_sz[1],
+        window_width: window.innerWidth,
+        window_height: window.innerHeight
+    }
+    browser.runtime.sendMessage({ msg_type: "qrcode_decode", data: data });
 }
 
-// function receive_result_from_background_experiment(obj) {
-//     document.body.appendChild(root);
-//     // console.log(obj);
-//     let experiment = document.createElement("img");
-//     experiment.src = obj[0];
-//     document.body.appendChild(experiment);
-//     let exp2 = document.createElement("img");
-//     exp2.src = obj[1];
-//     document.body.appendChild(exp2);
-// }
+function msg_handler(msg) {
+    if (msg.msg_type == "decode_result") {
+        receive_result_from_background(msg.data);
+    }
+}
 
 function receive_result_from_background(decoded) {
     document.body.appendChild(root);
     if (decoded) {
-        console.log("decoded url: " + decoded.data);
+        // console.log("decoded url: " + decoded.data);
+        decode_sucess = true;
         //> focus squere
         let squere_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
         squere.style.left = squere_lefttop[0] + decoded.location.topLeftCorner.x - squere_padding + "px";
@@ -153,21 +154,25 @@ function receive_result_from_background(decoded) {
         // result_board = document.createElement("div");
         // console.log(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
         result_board.firstElementChild.value = decoded.data;
-        result_board.lastElementChild.disabled = !(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
+        result_board.childNodes[2].disabled = !(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
+        result_board.childNodes[3].disabled = !(decoded.data.startsWith("http://") || decoded.data.startsWith("https://"));
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
+        decode_sucess = false;
         squere.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
     }
 }
 
 function setup_start_html_elements() {
+    //> root node 
     root = document.createElement("div");
     root.id = "qrshot_root_element";
     root.addEventListener("mousedown", drag_select_begin);
     root.addEventListener("mousemove", drag_selecting);
     root.addEventListener("mouseup", drag_select_end);
 
+    //> cancel button
     cancel_btn = document.createElement("button");
     cancel_btn.id = "qrshot_cancel_btn";
     cancel_btn.classList.add("qrshot_btn");
@@ -178,36 +183,53 @@ function setup_start_html_elements() {
     cancel_btn.innerText = "Cancel";
     root.appendChild(cancel_btn);
 
+    //> again button
+    again_btn = document.createElement("button");
+    again_btn.id = "qrshot_again_btn";
+    again_btn.style.right = "23%";
+    again_btn.classList.add("qrshot_btn");
+    again_btn.addEventListener("click", again_btn_clicked);
+    again_btn.addEventListener("mouseenter", () => { is_on_certain_button = true; });
+    again_btn.addEventListener("mouseleave", () => { is_on_certain_button = false; });
+    again_btn.innerText = "Again";
+
+    //> squere 
     squere = document.createElement("div");
     squere.id = "qrshot_squere";
 
+    //> result board
     result_board = document.createElement("div");
     result_board.id = "qrshot_result_board";
+
     let result_text_field = document.createElement("input");
     result_text_field.id = "qrshot_result_text_field";
     result_text_field.type = "text";
+
     let result_go_btn = document.createElement("button");
     result_go_btn.id = "qrshot_result_go_btn";
     result_go_btn.classList.add("qrshot_result_board_btns");
     result_go_btn.innerText = "Go";
-    result_go_btn.addEventListener("click", result_go_btn_clicked);
+    result_go_btn.addEventListener("click", () => { result_go_tab_btn_clicked("go") });
+
     let result_newtab_btn = document.createElement("button");
     result_newtab_btn.id = "qrshot_result_newtab_btn";
     result_newtab_btn.classList.add("qrshot_result_board_btns");
     result_newtab_btn.innerText = "NewTab";
-    result_newtab_btn.addEventListener("click", result_go_btn_clicked);
+    result_newtab_btn.addEventListener("click", () => { result_go_tab_btn_clicked("newtab") });
+
     let result_copy_btn = document.createElement("button");
     result_copy_btn.id = "qrshot_result_copy_btn";
     result_copy_btn.classList.add("qrshot_result_board_btns");
     result_copy_btn.innerText = "Copy";
-    result_copy_btn.addEventListener("click", result_go_btn_clicked);
+    result_copy_btn.addEventListener("click", result_copy_btn_clicked);
+
     result_board.appendChild(result_text_field);
     result_board.appendChild(result_copy_btn);
     result_board.appendChild(result_go_btn);
     result_board.appendChild(result_newtab_btn);
+    // root.appendChild(result_board);
 
-    root.appendChild(result_board);
-
+    //> append root to body
     document.body.appendChild(root);
 }
 
