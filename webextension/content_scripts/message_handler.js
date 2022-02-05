@@ -8,6 +8,7 @@ function msg_handler(msg) {
 
 function receive_result_from_background(decoded) {
     document.body.appendChild(root);
+    enable_scroll();
     if (decoded) {
         //> focus square
         let square_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;

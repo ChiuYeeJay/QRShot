@@ -20,3 +20,20 @@ function get_page_width() {
         document.documentElement.offsetWidth
     )
 }
+
+var scrollLeft;
+var scrollTop;
+
+function disable_scroll() {
+    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    window.addEventListener("scroll", scroll_freeze);
+}
+
+function enable_scroll() {
+    window.removeEventListener("scroll", scroll_freeze);
+}
+
+function scroll_freeze() {
+    window.scrollTo(scrollLeft, scrollTop);
+}
