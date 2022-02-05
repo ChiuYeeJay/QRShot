@@ -23,7 +23,8 @@ var dont_start_select = false;
 var is_on_certain_button = false;
 var square;
 var mouse_start_pos;
-var square_lefttop;
+var mouse_start_screen_pos;
+var square_lefttop = [0, 0];
 
 function cancel_btn_clicked() {
     document.body.removeChild(document.getElementById("qrshot_root_element"));
@@ -62,8 +63,10 @@ function result_close_btn_clicked() {
 // called when mouse down on root element
 function drag_select_begin(e) {
     if (dont_start_select || is_on_certain_button) return;
+    // console.log(e);
     is_dragging = true;
-    mouse_start_pos = [e.clientX, e.clientY];
+    mouse_start_screen_pos = [e.clientX, e.clientY];
+    mouse_start_pos = [e.pageX, e.pageY];
     square.style.left = mouse_start_pos[0];
     square.style.top = mouse_start_pos[1];
     square.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
@@ -74,27 +77,30 @@ function drag_select_begin(e) {
 // called when mouse move on root element
 function drag_selecting(e) {
     if (!is_dragging) return;
-    if (mouse_start_pos[0] < e.clientX) {
+    let page_width = get_page_width();
+    let page_height = get_page_height();
+    if (mouse_start_pos[0] < e.pageX) {
         square.style.left = mouse_start_pos[0] + "px";
-        square.style.right = (root.clientWidth - e.clientX) + "px";
+        square.style.right = (page_width - e.pageX) + "px";
     } else {
-        square.style.left = e.clientX + "px";
-        square.style.right = (root.clientWidth - mouse_start_pos[0]) + "px";
+        square.style.left = e.pageX + "px";
+        square.style.right = (page_width - mouse_start_pos[0]) + "px";
     }
-    if (mouse_start_pos[1] < e.clientY) {
+    if (mouse_start_pos[1] < e.pageY) {
         square.style.top = mouse_start_pos[1] + "px";
-        square.style.bottom = (root.clientHeight - e.clientY) + "px";
+        square.style.bottom = (page_height - e.pageY) + "px";
     } else {
-        square.style.top = e.clientY + "px";
-        square.style.bottom = (root.clientHeight - mouse_start_pos[1]) + "px";
+        square.style.top = e.pageY + "px";
+        square.style.bottom = (page_height - mouse_start_pos[1]) + "px";
     }
 }
 
 // called when mouse up on root element
 function drag_select_end(e) {
     if (!is_dragging) return;
+    // console.log(e);
     is_dragging = false;
-    if (mouse_start_pos[0] == e.clientX || mouse_start_pos[0] == e.clientY) {
+    if (mouse_start_pos[0] == e.pageX || mouse_start_pos[0] == e.pageY) {
         root.appendChild(cancel_btn);
         return;
     }
@@ -106,21 +112,25 @@ function drag_select_end(e) {
 
     let offset = [0, 0];
     let cv_sz = [0, 0];
-    if (mouse_start_pos[0] < e.clientX) {
-        offset[0] = mouse_start_pos[0];
+    if (mouse_start_pos[0] < e.pageX) {
+        offset[0] = mouse_start_screen_pos[0];
         cv_sz[0] = e.clientX - offset[0];
+        square_lefttop[0] = mouse_start_pos[0];
     } else {
         offset[0] = e.clientX;
-        cv_sz[0] = mouse_start_pos[0] - offset[0];
+        cv_sz[0] = mouse_start_screen_pos[0] - offset[0];
+        square_lefttop[0] = e.pageX;
     }
-    if (mouse_start_pos[1] < e.clientY) {
-        offset[1] = mouse_start_pos[1];
+    if (mouse_start_pos[1] < e.pageY) {
+        offset[1] = mouse_start_screen_pos[1];
         cv_sz[1] = e.clientY - offset[1];
+        square_lefttop[1] = mouse_start_pos[1];
     } else {
         offset[1] = e.clientY;
-        cv_sz[1] = mouse_start_pos[1] - offset[1];
+        cv_sz[1] = mouse_start_screen_pos[1] - offset[1];
+        square_lefttop[1] = e.pageY;
     }
-    square_lefttop = offset;
+    // console.log([mouse_start_screen_pos, [e.clientX, e.clientY], offset]);
 
     document.body.removeChild(root);
     let data = {
@@ -195,6 +205,9 @@ function setup_start_html_elements() {
     root.addEventListener("mousedown", drag_select_begin);
     root.addEventListener("mousemove", drag_selecting);
     root.addEventListener("mouseup", drag_select_end);
+    root.style.height = get_page_height() + "px";
+    root.style.width = get_page_width() + "px";
+
 
     //> cancel button
     cancel_btn = document.createElement("button");
@@ -271,6 +284,24 @@ function setup_start_html_elements() {
 
     //> append root to body
     document.body.appendChild(root);
+}
+
+function get_page_height() {
+    return Math.max(document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+    )
+}
+
+function get_page_width() {
+    return Math.max(document.body.scrollWidth,
+        document.body.offsetWidth,
+        document.documentElement.clientWidth,
+        document.documentElement.scrollWidth,
+        document.documentElement.offsetWidth
+    )
 }
 
 start();

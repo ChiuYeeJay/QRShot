@@ -25,3 +25,4 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 - [ ] Better selecting square and remove flash light
 - [ ] Resolve the CSS interfere problem
 - [ ] Submit to AMO
+- [ ] handle the situation that mouse go out of window
