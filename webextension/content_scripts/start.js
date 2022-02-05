@@ -2,9 +2,12 @@ function start() {
     let r = document.getElementById("qrshot_root_element");
     if (r != null) {
         document.body.removeChild(r);
+        browser.runtime.onMessage.removeListener(msg_handler);
+        clearInterval(root_size_interval);
     } else {
         setup_start_html_elements();
         browser.runtime.onMessage.addListener(msg_handler);
+        root_size_interval = setInterval(root_resize, 2000);
     }
 }
 
@@ -25,6 +28,8 @@ var square;
 var mouse_start_pos;
 var mouse_start_screen_pos;
 var square_lefttop = [0, 0];
+
+var root_size_interval;
 
 function cancel_btn_clicked() {
     document.body.removeChild(document.getElementById("qrshot_root_element"));
@@ -196,6 +201,11 @@ function something_wrong_from_background(error_str) {
     if (r != null) {
         document.body.removeChild(r);
     }
+}
+
+function root_resize() {
+    root.style.height = get_page_height() + "px";
+    root.style.width = get_page_width() + "px";
 }
 
 function setup_start_html_elements() {
