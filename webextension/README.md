@@ -1,0 +1,15 @@
+- manifest.json
+- background_original.js: The original background script before webpacked
+  - Listen to toolbar icon click event, and then inject the css and javascript code.
+  - Handle the request from content script:
+    - screen shot and decode the QR code (using jsQR library)
+    - navigate to the decoded url, or open in a new tab
+- background.js: The background script after webpacked
+- content_scripts / start.js: Set up all global variable, HTML elements 
+- content_scripts / ui_event_handler.js: Handlers of ui event
+- content_scripts / message_handler.js: Handler of message from background script
+- content_scripts / utility.js: Some function
+- web-ext-artifacts/
+  - result of `web-ext build`
+- icons/
+  - icons which take me a lot of time
