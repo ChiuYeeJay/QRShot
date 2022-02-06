@@ -3,12 +3,12 @@ function cancel_btn_clicked() {
 }
 
 function again_btn_clicked() {
-    square.hide();
-    square.left = 0;
-    square.width = 0;
-    square.top = 0;
-    square.height = 0;
-    square.evaluate_position_and_size();
+    highlight.hide();
+    highlight.left = 0;
+    highlight.width = 0;
+    highlight.top = 0;
+    highlight.height = 0;
+    highlight.evaluate_position_and_size();
     root.removeChild(again_btn);
     root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
@@ -42,12 +42,12 @@ function drag_select_begin(e) {
     disable_scroll();
     mouse_start_screen_pos = [e.clientX, e.clientY];
     mouse_start_pos = [e.pageX, e.pageY];
-    square.left = mouse_start_pos[0];
-    square.top = mouse_start_pos[1];
-    square.width = 0;
-    square.height = 0;
-    square.color = "rgba(150, 200, 255, 0.6)";
-    square.show();
+    highlight.left = mouse_start_pos[0];
+    highlight.top = mouse_start_pos[1];
+    highlight.width = 0;
+    highlight.height = 0;
+    highlight.color = "rgba(150, 200, 255, 0.6)";
+    highlight.show();
     root.style.backgroundColor = "transparent";
     root.removeChild(cancel_btn);
 }
@@ -56,20 +56,20 @@ function drag_select_begin(e) {
 function drag_selecting(e) {
     if (!is_dragging) return;
     if (mouse_start_pos[0] < e.pageX) {
-        square.left = mouse_start_pos[0];
-        square.width = e.pageX - mouse_start_pos[0];
+        highlight.left = mouse_start_pos[0];
+        highlight.width = e.pageX - mouse_start_pos[0];
     } else {
-        square.left = e.pageX;
-        square.width = mouse_start_pos[0] - e.pageX;
+        highlight.left = e.pageX;
+        highlight.width = mouse_start_pos[0] - e.pageX;
     }
     if (mouse_start_pos[1] < e.pageY) {
-        square.top = mouse_start_pos[1];
-        square.height = e.pageY - mouse_start_pos[1];
+        highlight.top = mouse_start_pos[1];
+        highlight.height = e.pageY - mouse_start_pos[1];
     } else {
-        square.top = e.pageY;
-        square.height = mouse_start_pos[1] - e.pageY;
+        highlight.top = e.pageY;
+        highlight.height = mouse_start_pos[1] - e.pageY;
     }
-    square.evaluate_position_and_size();
+    highlight.evaluate_position_and_size();
 }
 
 // called when mouse up on root element
@@ -92,22 +92,22 @@ function drag_select_end(e) {
     if (mouse_start_pos[0] < e.pageX) {
         offset[0] = mouse_start_screen_pos[0];
         cv_sz[0] = e.clientX - offset[0];
-        square_lefttop[0] = mouse_start_pos[0];
+        highlight_lefttop[0] = mouse_start_pos[0];
     } else {
         offset[0] = e.clientX;
         cv_sz[0] = mouse_start_screen_pos[0] - offset[0];
-        square_lefttop[0] = e.pageX;
+        highlight_lefttop[0] = e.pageX;
     }
     if (mouse_start_pos[1] < e.pageY) {
         offset[1] = mouse_start_screen_pos[1];
         cv_sz[1] = e.clientY - offset[1];
-        square_lefttop[1] = mouse_start_pos[1];
+        highlight_lefttop[1] = mouse_start_pos[1];
     } else {
         offset[1] = e.clientY;
         cv_sz[1] = mouse_start_screen_pos[1] - offset[1];
-        square_lefttop[1] = e.pageY;
+        highlight_lefttop[1] = e.pageY;
     }
-    square.color = "transparent";
+    highlight.color = "transparent";
 
     // console.log([mouse_start_screen_pos, [e.clientX, e.clientY], offset]);
 

@@ -1,7 +1,7 @@
 function root_highlight_resize() {
     root.style.height = get_page_height() + "px";
     root.style.width = get_page_width() + "px";
-    square.evaluate_position_and_size();
+    highlight.evaluate_position_and_size();
 }
 
 function get_page_height() {

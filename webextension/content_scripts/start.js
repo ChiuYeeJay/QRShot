@@ -24,10 +24,10 @@ var result_copy_btn
 var is_dragging = false;
 var dont_start_select = false;
 var is_on_certain_button = false;
-var square;
+var highlight;
 var mouse_start_pos;
 var mouse_start_screen_pos;
-var square_lefttop = [0, 0];
+var highlight_lefttop = [0, 0];
 
 var root_highlight_resize_interval;
 
@@ -65,7 +65,7 @@ function setup_start_html_elements() {
     again_btn.innerText = "Again";
 
     //> selection highlight
-    square = new SelectionHighlight();
+    highlight = new SelectionHighlight();
 
     //> result board
     result_board = document.createElement("div");

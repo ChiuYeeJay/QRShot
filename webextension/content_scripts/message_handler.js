@@ -10,14 +10,14 @@ function receive_result_from_background(decoded) {
     // document.body.appendChild(root);
     enable_scroll();
     if (decoded) {
-        //> highlight square
-        let square_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
-        square.left = square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding;
-        square.top = square_lefttop[1] + decoded.location.topLeftCorner.y - square_padding;
-        square.width = decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x + 2 * square_padding;
-        square.height = decoded.location.bottomRightCorner.y - decoded.location.topLeftCorner.y + 2 * square_padding;
-        square.color = "rgba(200, 255, 150, 0.6)";
-        square.evaluate_position_and_size();
+        //> green highlight
+        let highlight_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
+        highlight.left = highlight_lefttop[0] + decoded.location.topLeftCorner.x - highlight_padding;
+        highlight.top = highlight_lefttop[1] + decoded.location.topLeftCorner.y - highlight_padding;
+        highlight.width = decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x + 2 * highlight_padding;
+        highlight.height = decoded.location.bottomRightCorner.y - decoded.location.topLeftCorner.y + 2 * highlight_padding;
+        highlight.color = "rgba(200, 255, 150, 0.6)";
+        highlight.evaluate_position_and_size();
 
         //> result board
         let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
@@ -25,15 +25,15 @@ function receive_result_from_background(decoded) {
         result_text_field.disabled = is_url;
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
-        if (root.clientHeight - (square_lefttop[1] + decoded.location.bottomRightCorner.y) - square_padding > 120) {
-            result_board.style.top = (square_lefttop[1] + decoded.location.bottomRightCorner.y) + square_padding + 2 + "px";
+        if (root.clientHeight - (highlight_lefttop[1] + decoded.location.bottomRightCorner.y) - highlight_padding > 120) {
+            result_board.style.top = (highlight_lefttop[1] + decoded.location.bottomRightCorner.y) + highlight_padding + 2 + "px";
             if (result_board.style.bottom) result_board.style.removeProperty("bottom");
         } else {
             if (result_board.style.top) result_board.style.removeProperty("top");
             result_board.style.bottom = "0px";
         }
-        if (root.clientWidth - (square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding) > 272) {
-            result_board.style.left = square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding + "px";
+        if (root.clientWidth - (highlight_lefttop[0] + decoded.location.topLeftCorner.x - highlight_padding) > 272) {
+            result_board.style.left = highlight_lefttop[0] + decoded.location.topLeftCorner.x - highlight_padding + "px";
             if (result_board.style.right) result_board.style.removeProperty("right");
         } else {
             result_board.style.right = "0px";
@@ -42,7 +42,7 @@ function receive_result_from_background(decoded) {
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
-        square.color = "rgba(255, 150, 150, 0.6)";
+        highlight.color = "rgba(255, 150, 150, 0.6)";
     }
 }
 
