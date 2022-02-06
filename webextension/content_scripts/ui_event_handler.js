@@ -40,8 +40,10 @@ function drag_select_begin(e) {
     disable_scroll();
     mouse_start_screen_pos = [e.clientX, e.clientY];
     mouse_start_pos = [e.pageX, e.pageY];
-    square.style.left = mouse_start_pos[0];
-    square.style.top = mouse_start_pos[1];
+    square.style.left = mouse_start_pos[0] + "px";
+    square.style.top = mouse_start_pos[1] + "px";
+    square.style.width = "0px";
+    square.style.height = "0px";
     square.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
     root.appendChild(square);
     root.removeChild(cancel_btn);
@@ -50,21 +52,19 @@ function drag_select_begin(e) {
 // called when mouse move on root element
 function drag_selecting(e) {
     if (!is_dragging) return;
-    let page_width = get_page_width();
-    let page_height = get_page_height();
     if (mouse_start_pos[0] < e.pageX) {
         square.style.left = mouse_start_pos[0] + "px";
-        square.style.right = (page_width - e.pageX) + "px";
+        square.style.width = e.pageX - mouse_start_pos[0] + "px";
     } else {
         square.style.left = e.pageX + "px";
-        square.style.right = (page_width - mouse_start_pos[0]) + "px";
+        square.style.width = mouse_start_pos[0] - e.pageX + "px";
     }
     if (mouse_start_pos[1] < e.pageY) {
         square.style.top = mouse_start_pos[1] + "px";
-        square.style.bottom = (page_height - e.pageY) + "px";
+        square.style.height = e.pageY - mouse_start_pos[1] + "px";
     } else {
         square.style.top = e.pageY + "px";
-        square.style.bottom = (page_height - mouse_start_pos[1]) + "px";
+        square.style.height = mouse_start_pos[1] - e.pageY + "px";
     }
 }
 

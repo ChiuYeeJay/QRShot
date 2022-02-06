@@ -22,6 +22,7 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 
 ## Todo
 
+- [ ] Add 'no scroll hint' when selecting
 - [ ] Better selecting square and remove flash light
 - [ ] Resolve the CSS interfere problem
 - [ ] handle the situation that mouse go out of window

@@ -14,8 +14,8 @@ function receive_result_from_background(decoded) {
         let square_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
         square.style.left = square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding + "px";
         square.style.top = square_lefttop[1] + decoded.location.topLeftCorner.y - square_padding + "px";
-        square.style.right = root.clientWidth - (square_lefttop[0] + decoded.location.bottomRightCorner.x) - square_padding + "px";
-        square.style.bottom = root.clientHeight - (square_lefttop[1] + decoded.location.bottomRightCorner.y) - square_padding + "px";
+        square.style.width = decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x + 2 * square_padding + "px";
+        square.style.height = decoded.location.bottomRightCorner.y - decoded.location.topLeftCorner.y + 2 * square_padding + "px";
         square.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
 
         //> result board
@@ -25,7 +25,7 @@ function receive_result_from_background(decoded) {
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
         if (root.clientHeight - (square_lefttop[1] + decoded.location.bottomRightCorner.y) - square_padding > 120) {
-            result_board.style.top = (square_lefttop[1] + decoded.location.bottomRightCorner.y) - square_padding - 10 + "px";
+            result_board.style.top = (square_lefttop[1] + decoded.location.bottomRightCorner.y) + square_padding + 2 + "px";
             if (result_board.style.bottom) result_board.style.removeProperty("bottom");
         } else {
             if (result_board.style.top) result_board.style.removeProperty("top");
