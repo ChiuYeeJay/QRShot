@@ -36,7 +36,7 @@ function handle_capture(data) {
             //> decode QRcode
             let imgdata = shot_ctx.getImageData(0, 0, data.width, data.height);
             let decoded = jsQR(imgdata.data, imgdata.width, imgdata.height);
-            console.log(decoded);
+            // console.log(decoded);
 
             let gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
             gettingActiveTab.then((tabs) => {

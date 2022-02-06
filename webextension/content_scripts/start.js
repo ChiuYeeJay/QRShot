@@ -24,7 +24,7 @@ var result_copy_btn
 var is_dragging = false;
 var dont_start_select = false;
 var is_on_certain_button = false;
-var highlight;
+// var highlight;
 var mouse_start_pos;
 var mouse_start_screen_pos;
 var highlight_lefttop = [0, 0];
@@ -66,7 +66,8 @@ function setup_start_html_elements() {
     again_btn.innerText = "Again";
 
     //> selection highlight
-    highlight = new SelectionHighlight();
+    // highlight = new SelectionHighlight();
+    highlight.constructor();
 
     //> result board
     result_board = document.createElement("div");
