@@ -11,7 +11,6 @@ function receive_result_from_background(decoded) {
     root.style.cursor = "default";
     cancel_btn.style.left = "23%"
     root.appendChild(again_btn);
-    enable_scroll();
     if (decoded) {
         //> green highlight
         let highlight_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;

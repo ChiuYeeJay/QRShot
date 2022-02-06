@@ -41,7 +41,6 @@ function drag_select_begin(e) {
     // console.log(e);
     is_dragging = true;
     dont_start_select = true;
-    disable_scroll();
     mouse_start_screen_pos = [e.clientX, e.clientY];
     mouse_start_pos = [e.pageX, e.pageY];
     highlight.left = mouse_start_pos[0];
@@ -86,25 +85,20 @@ function drag_select_end(e) {
 
     root.appendChild(cancel_btn);
 
-    let offset = [0, 0];
     let cv_sz = [0, 0];
     if (mouse_start_pos[0] < e.pageX) {
-        offset[0] = mouse_start_screen_pos[0];
-        cv_sz[0] = e.clientX - offset[0];
         highlight_lefttop[0] = mouse_start_pos[0];
+        cv_sz[0] = e.pageX - highlight_lefttop[0];
     } else {
-        offset[0] = e.clientX;
-        cv_sz[0] = mouse_start_screen_pos[0] - offset[0];
         highlight_lefttop[0] = e.pageX;
+        cv_sz[0] = mouse_start_screen_pos[0] - highlight_lefttop[0];
     }
     if (mouse_start_pos[1] < e.pageY) {
-        offset[1] = mouse_start_screen_pos[1];
-        cv_sz[1] = e.clientY - offset[1];
         highlight_lefttop[1] = mouse_start_pos[1];
+        cv_sz[1] = e.pageY - highlight_lefttop[1];
     } else {
-        offset[1] = e.clientY;
-        cv_sz[1] = mouse_start_screen_pos[1] - offset[1];
         highlight_lefttop[1] = e.pageY;
+        cv_sz[1] = mouse_start_screen_pos[1] - highlight_lefttop[1];
     }
     highlight.color = "transparent";
 
@@ -112,12 +106,10 @@ function drag_select_end(e) {
 
     // document.body.removeChild(root);
     let data = {
-        offset_x: offset[0],
-        offset_y: offset[1],
-        cv_width: cv_sz[0],
-        cv_height: cv_sz[1],
-        window_width: window.innerWidth,
-        window_height: window.innerHeight
+        x: highlight_lefttop[0],
+        y: highlight_lefttop[1],
+        width: cv_sz[0],
+        height: cv_sz[1],
     }
     browser.runtime.sendMessage({ msg_type: "qrcode_decode", data: data });
 }
