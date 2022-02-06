@@ -8,7 +8,8 @@
 - content_scripts / start.js: Set up all global variable, HTML elements 
 - content_scripts / ui_event_handler.js: Handlers of ui event
 - content_scripts / message_handler.js: Handler of message from background script
-- content_scripts / utility.js: Some function
+- content_scripts / selection_highlight.js: The definition of 'SelectionHighlight' class
+- content_scripts / utility.js: Some functions
 - web-ext-artifacts/
   - result of `web-ext build`
 - icons/

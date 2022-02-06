@@ -84,9 +84,7 @@ function drag_select_end(e) {
     }
     dont_start_select = true;
 
-    cancel_btn.style.left = "23%"
     root.appendChild(cancel_btn);
-    root.appendChild(again_btn);
 
     let offset = [0, 0];
     let cv_sz = [0, 0];

@@ -12,7 +12,7 @@ QRShot是一個firefox的附加元件，點擊toolbar的按鈕，然後像是螢
 
 QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/jsQR)庫來解析QR code圖片。
 
-<img src="src/demo.gif" alt="demo2" style="zoom: 33%;" />
+<img src="src/demo.gif" alt="demo.gif" style="zoom: 33%;"/>
 
 ## Installation
 
@@ -23,7 +23,7 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 ## Todo
 
 - [ ] Add 'no scroll hint' when selecting
-- [ ] Better selecting square and remove flash light
+- [x] Better selecting square and remove flash light
 - [ ] Resolve the CSS interfere problem
 - [ ] handle the situation that mouse go out of window
 - [ ] Submit to AMO
