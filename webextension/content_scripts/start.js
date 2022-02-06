@@ -41,6 +41,7 @@ function setup_start_html_elements() {
     root.style.height = get_page_height() + "px";
     root.style.width = get_page_width() + "px";
     root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    root.style.cursor = "crosshair"
 
 
     //> cancel button

@@ -8,6 +8,7 @@ function msg_handler(msg) {
 
 function receive_result_from_background(decoded) {
     // document.body.appendChild(root);
+    root.style.cursor = "default";
     enable_scroll();
     if (decoded) {
         //> green highlight

@@ -11,6 +11,7 @@ function again_btn_clicked() {
     highlight.evaluate_position_and_size();
     root.removeChild(again_btn);
     root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    root.style.cursor = "crosshair"
     if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     cancel_btn.style.left = "40%";
