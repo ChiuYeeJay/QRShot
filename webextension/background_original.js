@@ -2,6 +2,7 @@ import jsQR from "jsqr";
 // inject the content script to the current tab
 function go_shooting() {
     browser.tabs.executeScript({ file: "/content_scripts/utility.js" });
+    browser.tabs.executeScript({ file: "/content_scripts/selection_highlight.js" });
     browser.tabs.executeScript({ file: "/content_scripts/ui_event_handler.js" });
     browser.tabs.executeScript({ file: "/content_scripts/message_handler.js" });
     browser.tabs.executeScript({ file: "/content_scripts/start.js" });

@@ -1,6 +1,7 @@
-function root_resize() {
+function root_highlight_resize() {
     root.style.height = get_page_height() + "px";
     root.style.width = get_page_width() + "px";
+    square.evaluate_position_and_size();
 }
 
 function get_page_height() {
@@ -9,7 +10,7 @@ function get_page_height() {
         document.documentElement.clientHeight,
         document.documentElement.scrollHeight,
         document.documentElement.offsetHeight
-    )
+    );
 }
 
 function get_page_width() {
@@ -18,7 +19,7 @@ function get_page_width() {
         document.documentElement.clientWidth,
         document.documentElement.scrollWidth,
         document.documentElement.offsetWidth
-    )
+    );
 }
 
 var scrollLeft;

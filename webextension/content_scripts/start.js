@@ -3,11 +3,11 @@ function start() {
     if (r != null) {
         document.body.removeChild(r);
         browser.runtime.onMessage.removeListener(msg_handler);
-        clearInterval(root_size_interval);
+        clearInterval(root_highlight_resize_interval);
     } else {
         setup_start_html_elements();
         browser.runtime.onMessage.addListener(msg_handler);
-        root_size_interval = setInterval(root_resize, 2000);
+        root_highlight_resize_interval = setInterval(root_highlight_resize, 2000);
     }
 }
 
@@ -29,7 +29,7 @@ var mouse_start_pos;
 var mouse_start_screen_pos;
 var square_lefttop = [0, 0];
 
-var root_size_interval;
+var root_highlight_resize_interval;
 
 function setup_start_html_elements() {
     //> root node 
@@ -40,6 +40,7 @@ function setup_start_html_elements() {
     root.addEventListener("mouseup", drag_select_end);
     root.style.height = get_page_height() + "px";
     root.style.width = get_page_width() + "px";
+    root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
 
 
     //> cancel button
@@ -63,9 +64,8 @@ function setup_start_html_elements() {
     again_btn.addEventListener("mouseleave", () => { is_on_certain_button = false; });
     again_btn.innerText = "Again";
 
-    //> square 
-    square = document.createElement("div");
-    square.id = "qrshot_square";
+    //> selection highlight
+    square = new SelectionHighlight();
 
     //> result board
     result_board = document.createElement("div");

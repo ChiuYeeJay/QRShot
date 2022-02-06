@@ -7,16 +7,17 @@ function msg_handler(msg) {
 }
 
 function receive_result_from_background(decoded) {
-    document.body.appendChild(root);
+    // document.body.appendChild(root);
     enable_scroll();
     if (decoded) {
-        //> focus square
+        //> highlight square
         let square_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
-        square.style.left = square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding + "px";
-        square.style.top = square_lefttop[1] + decoded.location.topLeftCorner.y - square_padding + "px";
-        square.style.width = decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x + 2 * square_padding + "px";
-        square.style.height = decoded.location.bottomRightCorner.y - decoded.location.topLeftCorner.y + 2 * square_padding + "px";
-        square.style.backgroundColor = "rgba(200, 255, 150, 0.6)";
+        square.left = square_lefttop[0] + decoded.location.topLeftCorner.x - square_padding;
+        square.top = square_lefttop[1] + decoded.location.topLeftCorner.y - square_padding;
+        square.width = decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x + 2 * square_padding;
+        square.height = decoded.location.bottomRightCorner.y - decoded.location.topLeftCorner.y + 2 * square_padding;
+        square.color = "rgba(200, 255, 150, 0.6)";
+        square.evaluate_position_and_size();
 
         //> result board
         let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
@@ -41,7 +42,7 @@ function receive_result_from_background(decoded) {
         root.appendChild(result_board);
     } else {
         console.log("fail to recognize qrcode");
-        square.style.backgroundColor = "rgba(255, 150, 150, 0.6)";
+        square.color = "rgba(255, 150, 150, 0.6)";
     }
 }
 

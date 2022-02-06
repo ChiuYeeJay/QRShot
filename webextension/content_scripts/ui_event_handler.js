@@ -3,12 +3,14 @@ function cancel_btn_clicked() {
 }
 
 function again_btn_clicked() {
-    root.removeChild(square);
-    square.style.left = "auto";
-    square.style.right = "auto";
-    square.style.top = "auto";
-    square.style.bottom = "auto";
+    square.hide();
+    square.left = 0;
+    square.width = 0;
+    square.top = 0;
+    square.height = 0;
+    square.evaluate_position_and_size();
     root.removeChild(again_btn);
+    root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     cancel_btn.style.left = "40%";
@@ -40,12 +42,13 @@ function drag_select_begin(e) {
     disable_scroll();
     mouse_start_screen_pos = [e.clientX, e.clientY];
     mouse_start_pos = [e.pageX, e.pageY];
-    square.style.left = mouse_start_pos[0] + "px";
-    square.style.top = mouse_start_pos[1] + "px";
-    square.style.width = "0px";
-    square.style.height = "0px";
-    square.style.backgroundColor = "rgba(150, 200, 255, 0.6)";
-    root.appendChild(square);
+    square.left = mouse_start_pos[0];
+    square.top = mouse_start_pos[1];
+    square.width = 0;
+    square.height = 0;
+    square.color = "rgba(150, 200, 255, 0.6)";
+    square.show();
+    root.style.backgroundColor = "transparent";
     root.removeChild(cancel_btn);
 }
 
@@ -53,19 +56,20 @@ function drag_select_begin(e) {
 function drag_selecting(e) {
     if (!is_dragging) return;
     if (mouse_start_pos[0] < e.pageX) {
-        square.style.left = mouse_start_pos[0] + "px";
-        square.style.width = e.pageX - mouse_start_pos[0] + "px";
+        square.left = mouse_start_pos[0];
+        square.width = e.pageX - mouse_start_pos[0];
     } else {
-        square.style.left = e.pageX + "px";
-        square.style.width = mouse_start_pos[0] - e.pageX + "px";
+        square.left = e.pageX;
+        square.width = mouse_start_pos[0] - e.pageX;
     }
     if (mouse_start_pos[1] < e.pageY) {
-        square.style.top = mouse_start_pos[1] + "px";
-        square.style.height = e.pageY - mouse_start_pos[1] + "px";
+        square.top = mouse_start_pos[1];
+        square.height = e.pageY - mouse_start_pos[1];
     } else {
-        square.style.top = e.pageY + "px";
-        square.style.height = mouse_start_pos[1] - e.pageY + "px";
+        square.top = e.pageY;
+        square.height = mouse_start_pos[1] - e.pageY;
     }
+    square.evaluate_position_and_size();
 }
 
 // called when mouse up on root element
@@ -103,9 +107,11 @@ function drag_select_end(e) {
         cv_sz[1] = mouse_start_screen_pos[1] - offset[1];
         square_lefttop[1] = e.pageY;
     }
+    square.color = "transparent";
+
     // console.log([mouse_start_screen_pos, [e.clientX, e.clientY], offset]);
 
-    document.body.removeChild(root);
+    // document.body.removeChild(root);
     let data = {
         offset_x: offset[0],
         offset_y: offset[1],
