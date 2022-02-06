@@ -40,6 +40,7 @@ function drag_select_begin(e) {
     if (dont_start_select || is_on_certain_button) return;
     // console.log(e);
     is_dragging = true;
+    dont_start_select = true;
     disable_scroll();
     mouse_start_screen_pos = [e.clientX, e.clientY];
     mouse_start_pos = [e.pageX, e.pageY];
@@ -82,7 +83,6 @@ function drag_select_end(e) {
         root.appendChild(cancel_btn);
         return;
     }
-    dont_start_select = true;
 
     root.appendChild(cancel_btn);
 
