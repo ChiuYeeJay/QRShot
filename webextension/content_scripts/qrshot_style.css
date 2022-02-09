@@ -60,6 +60,7 @@ input#qrshot_result_text_field {
     height: 30px;
     margin: 10px;
     flex-grow: 1;
+    cursor: default;
 }
 
 input#qrshot_result_text_field:focus {
@@ -80,6 +81,7 @@ button.qrshot_result_board_btns {
     flex-grow: 1;
     min-width: min-content;
     max-width: none;
+    cursor: default;
 }
 
 button.qrshot_result_board_btns:hover {
@@ -106,6 +108,7 @@ button#qrshot_result_close_btn {
     border: none;
     min-width: min-content;
     max-width: none;
+    cursor: default;
 }
 
 button#qrshot_result_close_btn:hover {
