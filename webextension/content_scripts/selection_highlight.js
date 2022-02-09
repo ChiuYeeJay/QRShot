@@ -41,7 +41,7 @@ var highlight = {
 
         // this.center = document.createElement("div");
         this.center.style.position = "absolute";
-        this.center.style.backgroundColor = "transparent";
+        this.center.style.backgroundColor = "transparent !important";
         this.center.id = "qshot_selection_highlight";
 
         this.evaluate_position_and_size();

@@ -1,4 +1,4 @@
-#qrshot_root_element {
+div#qrshot_root_element {
     top: 0;
     bottom: 0;
     left: 0;
@@ -7,30 +7,28 @@
     position: absolute;
 }
 
-.qrshot_btn {
+button.qrshot_btn {
     position: fixed;
     background-color: rgba(255, 255, 255, 0.25);
     color: azure;
+    font-size: 18px;
+    font-family: sans-serif;
+    font-weight: normal;
     border: 1px rgba(255, 255, 255, 0.7);
     width: 20%;
     height: 7%;
     min-height: 22px;
     min-width: 5px;
     bottom: 5%;
-    font-size: larger;
     border: solid rgba(255, 255, 255, 0.5) thin;
     cursor: default;
 }
 
-.qrshot_btn:hover {
+button.qrshot_btn:hover {
     background-color: rgba(255, 255, 255, 0.6);
 }
 
-#qrshot_square {
-    position: absolute;
-}
-
-#qrshot_result_board {
+div#qrshot_result_board {
     position: absolute;
     background-color: rgb(10, 10, 10);
     width: 300px;
@@ -41,6 +39,7 @@
     display: flex;
     flex-direction: column;
     cursor: default;
+    margin: initial;
 }
 
 .qrshot_result_line_container {
@@ -48,11 +47,13 @@
     width: 100%;
 }
 
-#qrshot_result_text_field {
+input#qrshot_result_text_field {
     background-color: rgb(30, 30, 30);
     color: rgb(200, 200, 200);
     border-style: none;
     font-size: 15px;
+    font-family: sans-serif;
+    font-weight: normal;
     width: 100%;
     min-width: min-content;
     max-width: none;
@@ -61,17 +62,19 @@
     flex-grow: 1;
 }
 
-#qrshot_result_text_field:focus {
+input#qrshot_result_text_field:focus {
     background-color: rgb(50, 50, 50);
 }
 
-.qrshot_result_board_btns {
+button.qrshot_result_board_btns {
     position: relative;
     background-color: rgba(255, 255, 255, 0.25);
     color: azure;
     border: 1px rgba(255, 255, 255, 0.7);
     height: 30px;
     font-size: 15px;
+    font-family: sans-serif;
+    font-weight: normal;
     border: solid rgba(255, 255, 255, 0.5) thin;
     margin: 10px;
     flex-grow: 1;
@@ -79,29 +82,32 @@
     max-width: none;
 }
 
-.qrshot_result_board_btns:hover {
+button.qrshot_result_board_btns:hover {
     background-color: rgba(255, 255, 255, 0.6);
 }
 
-.qrshot_result_board_btns:disabled {
+button.qrshot_result_board_btns:disabled {
     background-color: rgba(0, 0, 0, 0.6);
     color: darkslategrey;
     border: none;
 }
 
-#qrshot_result_close_btn {
+button#qrshot_result_close_btn {
     position: absolute;
     top: 0px;
     left: 0px;
     width: 20px;
     height: 20px;
-    color: azure;
     background-color: rgba(255, 112, 102, 0.8);
+    color: azure;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: normal;
     border: none;
     min-width: min-content;
     max-width: none;
 }
 
-#qrshot_result_close_btn:hover {
+button#qrshot_result_close_btn:hover {
     background-color: rgba(255, 43, 28, 0.8);
 }
