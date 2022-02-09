@@ -1,12 +1,24 @@
 import jsQR from "jsqr";
+
+var tab_ids = new Set();
+
 // inject the content script to the current tab
 function go_shooting() {
-    browser.tabs.executeScript({ file: "/content_scripts/utility.js" });
-    browser.tabs.executeScript({ file: "/content_scripts/selection_highlight.js" });
-    browser.tabs.executeScript({ file: "/content_scripts/ui_event_handler.js" });
-    browser.tabs.executeScript({ file: "/content_scripts/message_handler.js" });
-    browser.tabs.executeScript({ file: "/content_scripts/start.js" });
-    browser.tabs.insertCSS({ file: "/content_scripts/start.css" });
+    browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+        if (tabs[0].id === undefined) return;
+
+        if (!tab_ids.has(tabs[0].id)) {
+            tab_ids.add(tabs[0].id);
+            let a = browser.tabs.executeScript({ file: "/content_scripts/utility.js" });
+            a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/selection_highlight.js" }) });
+            a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/ui_event_handler.js" }) });
+            a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/message_handler.js" }) });
+            a = a.then(() => { browser.tabs.insertCSS({ file: "/content_scripts/start.css" }) });
+            a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/start.js" }) });
+        } else {
+            browser.tabs.executeScript({ file: "/content_scripts/start.js" });
+        }
+    });
 }
 
 function msg_handler(msg) {
@@ -69,5 +81,12 @@ function url_newtab(url) {
     });
 }
 
+function handle_tab_status_changing(tabId, changeInfo, tab) {
+    if (changeInfo.status == "loading" && tab_ids.has(tabId)) {
+        tab_ids.delete(tabId);
+    }
+}
+
+browser.tabs.onUpdated.addListener(handle_tab_status_changing, { properties: ["status"] });
 browser.runtime.onMessage.addListener(msg_handler);
 browser.browserAction.onClicked.addListener(go_shooting);
