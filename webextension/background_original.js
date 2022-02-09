@@ -13,7 +13,7 @@ function go_shooting() {
             a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/selection_highlight.js" }) });
             a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/ui_event_handler.js" }) });
             a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/message_handler.js" }) });
-            a = a.then(() => { browser.tabs.insertCSS({ file: "/content_scripts/start.css" }) });
+            a = a.then(() => { browser.tabs.insertCSS({ file: "/content_scripts/qrshot_style.css" }) });
             a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/start.js" }) });
         } else {
             browser.tabs.executeScript({ file: "/content_scripts/start.js" });
