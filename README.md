@@ -2,13 +2,13 @@
 
 ## Description
 
-QRShot is a Firefox browser extension, which allows users to scan QR codes on webpages with a screenshot action. At the moment, it is in an early stage of development.
+QRShot is a Firefox browser extension, which allows users to scan QR codes on webpages with a screenshot action.
 
 QRShot use [cozmo](https://github.com/cozmo)’s [jsQR](https://github.com/cozmo/jsQR) library to read QR code image.
 
 ----------
 
-QRShot是一個firefox的附加元件，點擊toolbar的按鈕，然後像是螢幕截圖一樣的拖移滑鼠擷取畫面，就會自動解析擷取方框中的QR code，並提供選項複製內容或前往該網址。目前這個附加元件還不成熟，仍在持續開發中。
+QRShot是一個firefox的附加元件，點擊toolbar的按鈕，然後像是螢幕截圖一樣的拖移滑鼠擷取畫面，就會自動解析擷取方框中的QR code，並提供選項複製內容或前往該網址。
 
 QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/jsQR)庫來解析QR code圖片。
 
@@ -22,7 +22,7 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 
 ## Todo
 
-- [ ] Resolve re-execute content script problem
-- [ ] Resolve the CSS interfere problem
-- [ ] Submit to AMO
-- [ ] Resolve problem of zooming and relative body with left/top != 0
+- Resolve the CSS interfere problem
+- Submit to AMO
+- Resolve problem of zooming and relative body with left/top != 0
+- ~~Resolve re-execute content script problem~~

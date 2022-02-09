@@ -10,6 +10,7 @@
 - content_scripts / message_handler.js: Handler of message from background script
 - content_scripts / selection_highlight.js: The definition of 'SelectionHighlight' class
 - content_scripts / utility.js: Some functions
+- content_scripts / qrshot_style.css: Style sheet of the ui
 - web-ext-artifacts/
   - result of `web-ext build`
 - icons/
