@@ -16,9 +16,9 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 
 ## Installation
 
+- Download on [AMO](https://addons.mozilla.org/zh-TW/firefox/addon/qrshot/).
 - Clone this repository, and run [web-ext](https://www.npmjs.com/package/web-ext) in `/webextension`. 
 - Clone this repository, and open the Firefox [about:debugging](https://developer.mozilla.org/en-US/docs/Tools/about:debugging) page, click the This Firefox option, click the Load Temporary Add-on  button, then select `webextension/manifest.json`.
-- ~~Download on  [AMO](https://addons.mozilla.org).~~ (in the future)
 
 ## Todo
 
