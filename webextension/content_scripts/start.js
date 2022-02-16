@@ -63,12 +63,6 @@ function setup_ab_root_html_elements() {
     document.body.appendChild(ab_root_frame);
 
     ab_root_frame.onload = () => {
-        //> ab_root frame css
-        let css_link = ab_root_frame.contentDocument.createElement("link");
-        css_link.rel = "stylesheet";
-        css_link.href = browser.runtime.getURL("qrshot_style.css");
-        ab_root_frame.contentDocument.head.appendChild(css_link);
-
         //> body as ab_root
         ab_root = ab_root_frame.contentDocument.body;
         ab_root.style.height = get_page_height() + "px";
@@ -106,19 +100,15 @@ function setup_btns_html_elements() {
     document.body.appendChild(cancel_btn_frame);
 
     cancel_btn_frame.onload = () => {
-        //> fx_root frame css
-        let css_link = ab_root_frame.contentDocument.createElement("link");
-        css_link.rel = "stylesheet";
-        css_link.href = browser.runtime.getURL("qrshot_style.css");
-        cancel_btn_frame.contentDocument.head.appendChild(css_link);
-
-        //> body as fx_root
-        cancel_btn_frame.contentDocument.body.style.height = "100%";
-        cancel_btn_frame.contentDocument.body.style.width = "100%";
-        cancel_btn_frame.contentDocument.body.style.border = "0px";
-        cancel_btn_frame.contentDocument.body.style.padding = "0px";
-        cancel_btn_frame.contentDocument.body.style.margin = "0px";
-        cancel_btn_frame.contentDocument.body.style.backgroundColor = "transparent";
+        //> button frame css
+        let css_style = document.createElement("style");
+        css_style.innerText = '.qrshot_btn {position: absolute;background-color: rgba(255, 255, 255, 0.25);\
+            color: azure;font-size: 18px;font-family: sans-serif;font-weight: normal;\
+            border: 1px rgba(255, 255, 255, 0.7);min-height: 22px;min-width: 5px;\
+            border: solid rgba(255, 255, 255, 0.5) thin;cursor: default;}\
+            body{height: 100%; width: 100%; border=0px; padding: 0px;margin: 0px;\
+            background-color: transparent;} .qrshot_btn:hover {background-color: rgba(255, 255, 255, 0.6);}';
+        cancel_btn_frame.contentDocument.head.appendChild(css_style);
 
         //> append cancel button
         cancel_btn_frame.contentDocument.body.appendChild(cancel_btn);
@@ -154,19 +144,15 @@ function setup_btns_html_elements() {
     document.body.appendChild(again_btn_frame);
 
     again_btn_frame.onload = () => {
-        //> fx_root frame css
-        let css_link = ab_root_frame.contentDocument.createElement("link");
-        css_link.rel = "stylesheet";
-        css_link.href = browser.runtime.getURL("qrshot_style.css");
-        again_btn_frame.contentDocument.head.appendChild(css_link);
-
-        //> body as fx_root
-        again_btn_frame.contentDocument.body.style.height = "100%";
-        again_btn_frame.contentDocument.body.style.width = "100%";
-        again_btn_frame.contentDocument.body.style.border = "0px";
-        again_btn_frame.contentDocument.body.style.padding = "0px";
-        again_btn_frame.contentDocument.body.style.margin = "0px";
-        again_btn_frame.contentDocument.body.style.backgroundColor = "transparent";
+        //> button frame css
+        let css_style = document.createElement("style");
+        css_style.innerText = '.qrshot_btn {position: absolute;background-color: rgba(255, 255, 255, 0.25);\
+            color: azure;font-size: 18px;font-family: sans-serif;font-weight: normal;\
+            border: 1px rgba(255, 255, 255, 0.7);min-height: 22px;min-width: 5px;\
+            border: solid rgba(255, 255, 255, 0.5) thin;cursor: default;}\
+            body{height: 100%; width: 100%; border=0px; padding: 0px;margin: 0px;\
+            background-color: transparent;} .qrshot_btn:hover {background-color: rgba(255, 255, 255, 0.6);}';
+        again_btn_frame.contentDocument.head.appendChild(css_style);
 
         //> append again button
         again_btn_frame.contentDocument.body.appendChild(again_btn);
@@ -208,6 +194,27 @@ function setup_result_frame_html_elements() {
         css_link.rel = "stylesheet";
         css_link.href = browser.runtime.getURL("qrshot_style.css");
         result_frame.contentDocument.head.appendChild(css_link);
+
+        let css_style = document.createElement("style");
+        css_style.innerText = "#qrshot_result_board {position: absolute;background-color: rgb(10, 10, 10);\
+            width: 300px;padding: 10px;border-width: 1px;border-style: solid;\
+            border-color: rgba(255, 255, 255, 0.7);display: flex;flex-direction: column;cursor: default;\
+            margin: initial;}.qrshot_result_line_container {display: flex;width: 100%;}\
+            input#qrshot_result_text_field {background-color: rgb(30, 30, 30);color: rgb(200, 200, 200);\
+            border-style: none;font-size: 15px;font-family: sans-serif;font-weight: normal;width: 100%;\
+            min-width: min-content;max-width: none;height: 30px;margin: 10px;flex-grow: 1;cursor: default;}\
+            input#qrshot_result_text_field:focus {background-color: rgb(50, 50, 50);}\
+            button.qrshot_result_board_btns {position: relative;background-color: rgba(255, 255, 255, 0.25);\
+            color: azure;border: 1px rgba(255, 255, 255, 0.7);height: 30px;font-size: 15px;\
+            font-family: sans-serif;font-weight: normal;border: solid rgba(255, 255, 255, 0.5) thin;\
+            margin: 10px;flex-grow: 1;min-width: min-content;max-width: none;cursor: default;}\
+            button.qrshot_result_board_btns:hover {background-color: rgba(255, 255, 255, 0.6);}\
+            button.qrshot_result_board_btns:disabled {background-color: rgba(0, 0, 0, 0.6);\
+            color: darkslategrey;border: none;}button#qrshot_result_close_btn {position: absolute;top: 0px;\
+            left: 0px;width: 20px;height: 20px;background-color: rgba(255, 112, 102, 0.8);color: azure;\
+            font-size: 15px;font-family: sans-serif;font-weight: normal;border: none;min-width: min-content;\
+            max-width: none;cursor: default;}button#qrshot_result_close_btn:hover {\
+            background-color: rgba(255, 43, 28, 0.8);}";
 
         //> result board
         result_board = result_frame.contentDocument.body;

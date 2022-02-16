@@ -42,7 +42,7 @@ function result_close_btn_clicked() {
 // called when mouse down on root element
 function drag_select_begin(e) {
     if (dont_start_select || is_on_certain_button) return;
-    console.log(e);
+    // console.log(e);
     is_dragging = true;
     dont_start_select = true;
     mouse_start_screen_pos = [e.clientX, e.clientY];
@@ -84,6 +84,7 @@ function drag_select_end(e) {
     is_dragging = false;
     if (mouse_start_pos[0] == e.pageX || mouse_start_pos[0] == e.pageY) {
         cancel_btn_frame.hidden = false;
+        dont_start_select = false;
         return;
     }
 
