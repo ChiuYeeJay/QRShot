@@ -1,5 +1,6 @@
 function cancel_btn_clicked() {
-    document.body.removeChild(document.getElementById("qrshot_root_element"));
+    document.body.removeChild(ab_root_frame);
+    document.body.removeChild(fx_root_frame);
 }
 
 function again_btn_clicked() {
@@ -9,10 +10,10 @@ function again_btn_clicked() {
     highlight.top = 0;
     highlight.height = 0;
     highlight.evaluate_position_and_size();
-    root.removeChild(again_btn);
-    root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    root.style.cursor = "crosshair"
-    if (root_frame.contentDocument.getElementById("qrshot_result_board")) root.removeChild(result_board);
+    fx_root.removeChild(again_btn);
+    ab_root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    ab_root.style.cursor = "crosshair"
+    if (!result_frame.hidden) result_frame.hidden = true;
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     cancel_btn.style.left = "40%";
     dont_start_select = false;
@@ -22,7 +23,7 @@ function again_btn_clicked() {
 // result_go_btn or result_newtab_btn clicked
 function result_go_tab_btn_clicked(type) {
     browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_text_field.value });
-    document.body.removeChild(root_frame);
+    remove_all_qrshot_elements();
 }
 
 function result_copy_btn_clicked() {
@@ -31,14 +32,16 @@ function result_copy_btn_clicked() {
 }
 
 function result_close_btn_clicked() {
-    root.removeChild(result_board);
-    document.body.removeChild(root_frame);
+    // document.body.removeChild(ab_root_frame);
+    // document.body.removeChild(fx_root_frame);
+    // Document.body.removeChild(result_frame);
+    remove_all_qrshot_elements();
 }
 
 // called when mouse down on root element
 function drag_select_begin(e) {
     if (dont_start_select || is_on_certain_button) return;
-    // console.log(e);
+    console.log(e);
     is_dragging = true;
     dont_start_select = true;
     mouse_start_screen_pos = [e.clientX, e.clientY];
@@ -49,8 +52,9 @@ function drag_select_begin(e) {
     highlight.height = 0;
     highlight.color = "rgba(150, 200, 255, 0.6)";
     highlight.show();
-    root.style.backgroundColor = "transparent";
-    root.removeChild(cancel_btn);
+    ab_root.style.backgroundColor = "transparent";
+    fx_root_frame.hidden = true;
+    fx_root.removeChild(cancel_btn);
 }
 
 // called when mouse move on root element
@@ -79,11 +83,12 @@ function drag_select_end(e) {
     // console.log(e);
     is_dragging = false;
     if (mouse_start_pos[0] == e.pageX || mouse_start_pos[0] == e.pageY) {
-        root.appendChild(cancel_btn);
+        fx_root.appendChild(cancel_btn);
         return;
     }
 
-    root.appendChild(cancel_btn);
+    fx_root.appendChild(cancel_btn);
+    fx_root_frame.hidden = false;
 
     let cv_sz = [0, 0];
     if (mouse_start_pos[0] < e.pageX) {
