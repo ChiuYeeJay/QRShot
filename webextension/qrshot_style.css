@@ -7,7 +7,7 @@
     position: absolute;
 } */
 
-button.qrshot_btn {
+.qrshot_btn {
     position: fixed;
     background-color: rgba(255, 255, 255, 0.25);
     color: azure;

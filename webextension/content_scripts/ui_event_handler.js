@@ -1,6 +1,7 @@
 function cancel_btn_clicked() {
-    document.body.removeChild(ab_root_frame);
-    document.body.removeChild(fx_root_frame);
+    // document.body.removeChild(ab_root_frame);
+    // document.body.removeChild(fx_root_frame);
+    remove_all_qrshot_elements();
 }
 
 function again_btn_clicked() {
@@ -10,12 +11,12 @@ function again_btn_clicked() {
     highlight.top = 0;
     highlight.height = 0;
     highlight.evaluate_position_and_size();
-    fx_root.removeChild(again_btn);
+    again_btn_frame.hidden = true;
     ab_root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     ab_root.style.cursor = "crosshair"
     if (!result_frame.hidden) result_frame.hidden = true;
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
-    cancel_btn.style.left = "40%";
+    cancel_btn_frame.style.left = "40%";
     dont_start_select = false;
     is_on_certain_button = false;
 }
@@ -53,8 +54,7 @@ function drag_select_begin(e) {
     highlight.color = "rgba(150, 200, 255, 0.6)";
     highlight.show();
     ab_root.style.backgroundColor = "transparent";
-    fx_root_frame.hidden = true;
-    fx_root.removeChild(cancel_btn);
+    cancel_btn_frame.hidden = true;
 }
 
 // called when mouse move on root element
@@ -83,12 +83,11 @@ function drag_select_end(e) {
     // console.log(e);
     is_dragging = false;
     if (mouse_start_pos[0] == e.pageX || mouse_start_pos[0] == e.pageY) {
-        fx_root.appendChild(cancel_btn);
+        cancel_btn_frame.hidden = false;
         return;
     }
 
-    fx_root.appendChild(cancel_btn);
-    fx_root_frame.hidden = false;
+    cancel_btn_frame.hidden = false;
 
     let cv_sz = [0, 0];
     if (mouse_start_pos[0] < e.pageX) {

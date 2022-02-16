@@ -1,6 +1,8 @@
 function root_highlight_resize() {
     ab_root_frame.style.height = get_page_height() + "px";
     ab_root_frame.style.width = get_page_width() + "px";
+    ab_root.style.height = get_page_height() + "px";
+    ab_root.style.width = get_page_width() + "px";
     highlight.evaluate_position_and_size();
 }
 

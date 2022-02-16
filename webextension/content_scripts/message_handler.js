@@ -8,8 +8,8 @@ function msg_handler(msg) {
 
 function receive_result_from_background(decoded) {
     ab_root.style.cursor = "default";
-    cancel_btn.style.left = "23%"
-    fx_root.appendChild(again_btn);
+    cancel_btn_frame.style.left = "23%"
+    again_btn_frame.hidden = false;
     if (decoded) {
         //> green highlight
         let highlight_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
