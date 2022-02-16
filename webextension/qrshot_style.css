@@ -1,11 +1,11 @@
-div#qrshot_root_element {
+/* div#qrshot_root_element {
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 100000000;
     position: absolute;
-}
+} */
 
 button.qrshot_btn {
     position: fixed;

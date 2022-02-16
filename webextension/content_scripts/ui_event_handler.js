@@ -12,7 +12,7 @@ function again_btn_clicked() {
     root.removeChild(again_btn);
     root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     root.style.cursor = "crosshair"
-    if (document.getElementById("qrshot_result_board")) root.removeChild(result_board);
+    if (root_frame.contentDocument.getElementById("qrshot_result_board")) root.removeChild(result_board);
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     cancel_btn.style.left = "40%";
     dont_start_select = false;
@@ -22,7 +22,7 @@ function again_btn_clicked() {
 // result_go_btn or result_newtab_btn clicked
 function result_go_tab_btn_clicked(type) {
     browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_text_field.value });
-    document.body.removeChild(root);
+    document.body.removeChild(root_frame);
 }
 
 function result_copy_btn_clicked() {
@@ -32,7 +32,7 @@ function result_copy_btn_clicked() {
 
 function result_close_btn_clicked() {
     root.removeChild(result_board);
-    document.body.removeChild(root);
+    document.body.removeChild(root_frame);
 }
 
 // called when mouse down on root element

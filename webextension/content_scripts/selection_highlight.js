@@ -1,19 +1,14 @@
-var highlight = {
-    left: 0,
-    top: 0,
-    width: 0,
-    height: 0,
-    left_black: this.left_black = document.createElement("div"),
-    up_black: this.left_black = document.createElement("div"),
-    right_black: this.left_black = document.createElement("div"),
-    down_black: this.left_black = document.createElement("div"),
-    center: this.left_black = document.createElement("div"),
-
+class SelectionHighlight {
     constructor() {
         this.left = 0;
         this.top = 0;
         this.width = 0;
         this.height = 0;
+        this.left_black = document.createElement("div");
+        this.up_black = document.createElement("div");
+        this.right_black = document.createElement("div");
+        this.down_black = document.createElement("div");
+        this.center = document.createElement("div");
 
         // this.left_black = this.left_black = document.createElement("div");;
         this.left_black.style.position = "absolute";
@@ -52,7 +47,7 @@ var highlight = {
         root.appendChild(this.right_black);
         root.appendChild(this.down_black);
         root.appendChild(this.center);
-    },
+    }
 
     evaluate_position_and_size() {
         let page_w = get_page_width();
@@ -82,7 +77,7 @@ var highlight = {
         this.center.style.width = this.width + "px";
         this.center.style.height = this.height + "px";
 
-    },
+    }
 
     show() {
         this.left_black.hidden = false;
@@ -90,7 +85,7 @@ var highlight = {
         this.right_black.hidden = false;
         this.down_black.hidden = false;
         this.center.hidden = false;
-    },
+    }
 
     hide() {
         this.left_black.hidden = true;
@@ -98,7 +93,7 @@ var highlight = {
         this.right_black.hidden = true;
         this.down_black.hidden = true;
         this.center.hidden = true;
-    },
+    }
 
     set color(val) {
         this.center.style.backgroundColor = val;
