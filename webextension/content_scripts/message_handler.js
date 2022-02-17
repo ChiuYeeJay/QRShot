@@ -11,12 +11,14 @@ function receive_result_from_background(decoded) {
     cancel_btn_frame.style.left = "23%"
     again_btn_frame.hidden = false;
     if (decoded) {
+        let location = decoded.location;
         //> green highlight
-        let relative_left = Math.min(decoded.location.topLeftCorner.x, decoded.location.bottomRightCorner.x);
-        let highlight_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
-        let relative_right = Math.max(decoded.location.topLeftCorner.x, decoded.location.bottomRightCorner.x);
-        let relative_top = Math.min(decoded.location.topLeftCorner.y, decoded.location.bottomRightCorner.y);
-        let relative_bottom = Math.max(decoded.location.topLeftCorner.y, decoded.location.bottomRightCorner.y);
+        let relative_left = Math.min(location.topLeftCorner.x, location.topRightCorner.x, location.bottomLeftCorner.x, location.bottomRightCorner.x);
+        let relative_right = Math.max(location.topLeftCorner.x, location.topRightCorner.x, location.bottomLeftCorner.x, location.bottomRightCorner.x);
+        let relative_top = Math.min(location.topLeftCorner.y, location.bottomLeftCorner.y, location.topRightCorner.y, location.bottomRightCorner.y);
+        let relative_bottom = Math.max(location.topLeftCorner.y, location.bottomLeftCorner.y, location.topRightCorner.y, location.bottomRightCorner.y);
+        let highlight_padding = (relative_right - relative_left) * 0.05;
+        // highlight_padding = 0;
         highlight.left = highlight_lefttop[0] + relative_left - highlight_padding;
         highlight.top = highlight_lefttop[1] + relative_top - highlight_padding;
         highlight.width = relative_right - relative_left + 2 * highlight_padding;
