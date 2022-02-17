@@ -28,6 +28,7 @@ function receive_result_from_background(decoded) {
         let is_url = decoded.data.startsWith("http://") || decoded.data.startsWith("https://");
         result_text_field.value = decoded.data;
         result_text_field.disabled = is_url;
+        result_text_field.style.cursor = is_url ? "default" : "text";
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
         if (ab_root.clientHeight - (highlight_lefttop[1] + relative_bottom) - highlight_padding > 120) {

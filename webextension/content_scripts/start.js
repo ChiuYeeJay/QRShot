@@ -59,7 +59,7 @@ function setup_ab_root_html_elements() {
     ab_root_frame.style.padding = "0px";
     ab_root_frame.style.margin = "0px";
     ab_root_frame.style.backgroundColor = "transparent";
-    ab_root_frame.srcdoc = " ";
+    ab_root_frame.srcdoc = "<!DOCTYPE html>";
     document.body.appendChild(ab_root_frame);
 
     ab_root_frame.onload = () => {
@@ -96,7 +96,7 @@ function setup_btns_html_elements() {
     cancel_btn_frame.style.padding = "0px";
     cancel_btn_frame.style.margin = "0px";
     cancel_btn_frame.style.backgroundColor = "transparent";
-    cancel_btn_frame.srcdoc = " ";
+    cancel_btn_frame.srcdoc = "<!DOCTYPE html>";
     document.body.appendChild(cancel_btn_frame);
 
     cancel_btn_frame.onload = () => {
@@ -140,7 +140,7 @@ function setup_btns_html_elements() {
     again_btn_frame.style.padding = "0px";
     again_btn_frame.style.margin = "0px";
     again_btn_frame.style.backgroundColor = "transparent";
-    again_btn_frame.srcdoc = " ";
+    again_btn_frame.srcdoc = "<!DOCTYPE html>";
     document.body.appendChild(again_btn_frame);
 
     again_btn_frame.onload = () => {
@@ -185,7 +185,7 @@ function setup_result_frame_html_elements() {
     result_frame.style.padding = "0px";
     result_frame.style.margin = "0px";
     result_frame.style.backgroundColor = "transparent";
-    result_frame.srcdoc = " ";
+    result_frame.srcdoc = "<!DOCTYPE html>";
     document.body.appendChild(result_frame);
 
     result_frame.onload = () => {
@@ -202,7 +202,7 @@ function setup_result_frame_html_elements() {
             margin: initial;}.qrshot_result_line_container {display: flex;width: 100%;}\
             input#qrshot_result_text_field {background-color: rgb(30, 30, 30);color: rgb(200, 200, 200);\
             border-style: none;font-size: 15px;font-family: sans-serif;font-weight: normal;width: 100%;\
-            min-width: min-content;max-width: none;height: 30px;margin: 10px;flex-grow: 1;cursor: default;}\
+            min-width: min-content;max-width: none;height: 30px;margin: 10px;flex-grow: 1;}\
             input#qrshot_result_text_field:focus {background-color: rgb(50, 50, 50);}\
             button.qrshot_result_board_btns {position: relative;background-color: rgba(255, 255, 255, 0.25);\
             color: azure;border: 1px rgba(255, 255, 255, 0.7);height: 30px;font-size: 15px;\

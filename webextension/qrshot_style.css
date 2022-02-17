@@ -62,7 +62,6 @@ input#qrshot_result_text_field {
     height: 30px;
     margin: 10px;
     flex-grow: 1;
-    cursor: default;
 }
 
 input#qrshot_result_text_field:focus {
