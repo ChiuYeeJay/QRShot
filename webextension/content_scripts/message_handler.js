@@ -12,11 +12,15 @@ function receive_result_from_background(decoded) {
     again_btn_frame.hidden = false;
     if (decoded) {
         //> green highlight
+        let relative_left = Math.min(decoded.location.topLeftCorner.x, decoded.location.bottomRightCorner.x);
         let highlight_padding = (decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x) * 0.05;
-        highlight.left = highlight_lefttop[0] + decoded.location.topLeftCorner.x - highlight_padding;
-        highlight.top = highlight_lefttop[1] + decoded.location.topLeftCorner.y - highlight_padding;
-        highlight.width = decoded.location.bottomRightCorner.x - decoded.location.topLeftCorner.x + 2 * highlight_padding;
-        highlight.height = decoded.location.bottomRightCorner.y - decoded.location.topLeftCorner.y + 2 * highlight_padding;
+        let relative_right = Math.max(decoded.location.topLeftCorner.x, decoded.location.bottomRightCorner.x);
+        let relative_top = Math.min(decoded.location.topLeftCorner.y, decoded.location.bottomRightCorner.y);
+        let relative_bottom = Math.max(decoded.location.topLeftCorner.y, decoded.location.bottomRightCorner.y);
+        highlight.left = highlight_lefttop[0] + relative_left - highlight_padding;
+        highlight.top = highlight_lefttop[1] + relative_top - highlight_padding;
+        highlight.width = relative_right - relative_left + 2 * highlight_padding;
+        highlight.height = relative_bottom - relative_top + 2 * highlight_padding;
         highlight.color = "rgba(200, 255, 150, 0.6)";
         highlight.evaluate_position_and_size();
 
@@ -26,15 +30,15 @@ function receive_result_from_background(decoded) {
         result_text_field.disabled = is_url;
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
-        if (ab_root.clientHeight - (highlight_lefttop[1] + decoded.location.bottomRightCorner.y) - highlight_padding > 120) {
-            result_frame.style.top = (highlight_lefttop[1] + decoded.location.bottomRightCorner.y) + highlight_padding + 2 + "px";
+        if (ab_root.clientHeight - (highlight_lefttop[1] + relative_bottom) - highlight_padding > 120) {
+            result_frame.style.top = (highlight_lefttop[1] + relative_bottom) + highlight_padding + 2 + "px";
             if (result_frame.style.bottom) result_frame.style.removeProperty("bottom");
         } else {
             if (result_frame.style.top) result_frame.style.removeProperty("top");
             result_frame.style.bottom = "0px";
         }
-        if (ab_root.clientWidth - (highlight_lefttop[0] + decoded.location.topLeftCorner.x - highlight_padding) > 272) {
-            result_frame.style.left = highlight_lefttop[0] + decoded.location.topLeftCorner.x - highlight_padding + "px";
+        if (ab_root.clientWidth - (highlight_lefttop[0] + relative_left - highlight_padding) > 272) {
+            result_frame.style.left = highlight_lefttop[0] + relative_left - highlight_padding + "px";
             if (result_frame.style.right) result_frame.style.removeProperty("right");
         } else {
             result_frame.style.right = "0px";
