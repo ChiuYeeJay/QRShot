@@ -41,7 +41,7 @@ function result_close_btn_clicked() {
 
 // called when mouse down on root element
 function drag_select_begin(e) {
-    if (dont_start_select || is_on_certain_button) return;
+    if (dont_start_select || is_on_certain_button || e.button != 0) return;
     // console.log(e);
     is_dragging = true;
     dont_start_select = true;
