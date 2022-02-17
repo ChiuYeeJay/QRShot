@@ -203,7 +203,7 @@ function setup_result_frame_html_elements() {
             margin: initial;}.qrshot_result_line_container {display: flex;width: 100%;}\
             input#qrshot_result_text_field {background-color: rgb(30, 30, 30);color: rgb(200, 200, 200);\
             border-style: none;font-size: 15px;font-family: sans-serif;font-weight: normal;width: 100%;\
-            min-width: min-content;max-width: none;height: 30px;margin: 10px;flex-grow: 1;}\
+            height: 30px;margin: 10px;flex-grow: 1;}\
             input#qrshot_result_text_field:focus {background-color: rgb(50, 50, 50);}\
             button.qrshot_result_board_btns {position: relative;background-color: rgba(255, 255, 255, 0.25);\
             color: azure;border: 1px rgba(255, 255, 255, 0.7);height: 30px;font-size: 15px;\
