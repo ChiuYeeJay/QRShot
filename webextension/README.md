@@ -5,7 +5,6 @@
     - screen shot and decode the QR code (using jsQR library)
     - navigate to the decoded url, or open in a new tab
 - background.js: The background script after webpacked
-- qrshot_style.css: Originally the style sheet of ui, but now it is deprecated and only for reference
 - content_scripts / start.js: Set up all global variable, HTML elements 
 - content_scripts / ui_event_handler.js: Handlers of ui event
 - content_scripts / message_handler.js: Handler of message from background script

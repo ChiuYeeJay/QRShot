@@ -23,6 +23,7 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 ## Todo
 
 - Improve coding structure
+- Internationalization
 - Resolve problem of zooming and relative body with left/top != 0
 - Movable result board
 - ~Submit to AMO~
