@@ -1,3 +1,5 @@
+const { readFile } = require("fs");
+
 function cancel_btn_clicked() {
     // document.body.removeChild(ab_root_frame);
     // document.body.removeChild(fx_root_frame);
@@ -118,3 +120,22 @@ function drag_select_end(e) {
     }
     browser.runtime.sendMessage({ msg_type: "qrcode_decode", data: data });
 }
+
+// function result_board_drag_begin(event) {
+//     is_result_board_dragging = true;
+//     rb_drag_init_pos = [event.clientX, event.clientY];
+//     result_frame.style.border = "1px white";
+// }
+
+// var rb_drag_init_pos;
+
+// function result_board_dragging(event) {
+//     if (!is_result_board_dragging) return;
+//     result_frame.style.left = parseInt(result_frame.style.left, 10) + event.clientX - rb_drag_init_pos[0] + "px";
+//     result_frame.style.top = parseInt(result_frame.style.top, 10) + event.clientY - rb_drag_init_pos[1] + "px";
+// }
+
+// function result_board_drag_end(event) {
+//     is_result_board_dragging = false;
+//     result_frame.style.border = "0px";
+// }

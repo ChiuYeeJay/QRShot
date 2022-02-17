@@ -34,6 +34,7 @@ var result_text_field
 var result_go_btn
 var result_newtab_btn
 var result_copy_btn
+    // var is_result_board_dragging = false;
 
 var is_dragging = false;
 var dont_start_select = false;
@@ -190,10 +191,10 @@ function setup_result_frame_html_elements() {
 
     result_frame.onload = () => {
         //> css
-        let css_link = ab_root_frame.contentDocument.createElement("link");
-        css_link.rel = "stylesheet";
-        css_link.href = browser.runtime.getURL("qrshot_style.css");
-        result_frame.contentDocument.head.appendChild(css_link);
+        // let css_link = ab_root_frame.contentDocument.createElement("link");
+        // css_link.rel = "stylesheet";
+        // css_link.href = browser.runtime.getURL("qrshot_style.css");
+        // result_frame.contentDocument.head.appendChild(css_link);
 
         let css_style = document.createElement("style");
         css_style.innerText = "#qrshot_result_board {position: absolute;background-color: rgb(10, 10, 10);\
@@ -215,11 +216,18 @@ function setup_result_frame_html_elements() {
             font-size: 15px;font-family: sans-serif;font-weight: normal;border: none;min-width: min-content;\
             max-width: none;cursor: default;}button#qrshot_result_close_btn:hover {\
             background-color: rgba(255, 43, 28, 0.8);}";
+        result_frame.contentDocument.head.appendChild(css_style);
+
 
         //> result board
         result_board = result_frame.contentDocument.body;
         result_board.id = "qrshot_result_board";
         result_frame.hidden = true;
+
+        // result_board.addEventListener("mousedown", result_board_drag_begin);
+        // result_board.addEventListener("mousemove", result_board_dragging);
+        // result_board.addEventListener("mouseup", result_board_drag_end);
+        // result_frame.draggable = true;
 
         result_board.appendChild(result_line_container_up);
         result_board.appendChild(result_line_container_down);
