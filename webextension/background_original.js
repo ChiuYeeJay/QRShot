@@ -54,6 +54,7 @@ function handle_capture(data) {
             gettingActiveTab.then((tabs) => {
                 browser.tabs.sendMessage(tabs[0].id, { msg_type: "decode_result", data: decoded });
                 // browser.tabs.sendMessage(tabs[0].id, [clip_canvas.toDataURL(), resized_imgurl]);
+                // browser.tabs.sendMessage(tabs[0].id, { msg_type: "return_capture_img", data: capturing });
             });
         }
     }, (e) => { console.log("error: " + e); });

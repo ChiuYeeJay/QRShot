@@ -3,6 +3,8 @@ function msg_handler(msg) {
         receive_result_from_background(msg.data);
     } else if (msg.msg_type == "error_report") {
         something_wrong_from_background(msg.data);
+    } else if (msg.msg_type == "return_capture_img") {
+        receive_captured_screenshot(msg.data);
     }
 }
 
@@ -10,6 +12,7 @@ function receive_result_from_background(decoded) {
     ab_root.style.cursor = "default";
     cancel_btn_frame.style.left = "23%"
     again_btn_frame.hidden = false;
+    cancel_btn_frame.hidden = false;
     if (decoded) {
         let location = decoded.location;
         //> green highlight
@@ -51,6 +54,14 @@ function receive_result_from_background(decoded) {
     } else {
         console.log("fail to recognize qrcode");
         highlight.color = "rgba(255, 150, 150, 0.6)";
+    }
+}
+
+function receive_captured_screenshot(data) {
+    let img_elm = document.createElement("img");
+    img_elm.src = data;
+    img_elm.onload = () => {
+        document.body.appendChild(img_elm);
     }
 }
 

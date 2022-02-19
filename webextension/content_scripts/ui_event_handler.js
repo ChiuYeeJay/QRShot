@@ -88,7 +88,7 @@ function drag_select_end(e) {
         return;
     }
 
-    cancel_btn_frame.hidden = false;
+    // cancel_btn_frame.hidden = false;
 
     let cv_sz = [0, 0];
     if (mouse_start_pos[0] < e.pageX) {
