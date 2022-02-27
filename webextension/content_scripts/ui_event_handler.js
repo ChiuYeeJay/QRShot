@@ -31,7 +31,7 @@ function again_btn_clicked() {
  * @param {string} type "go" or "newtab"
  */
 function result_go_tab_btn_clicked(type) {
-    browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_text_field.value });
+    browser.runtime.sendMessage({ type: ("url_" + type), data: result_text_field.value });
     remove_all_qrshot_elements();
 }
 
@@ -126,7 +126,7 @@ function drag_select_end(e) {
         width: cv_sz[0],
         height: cv_sz[1],
     }
-    browser.runtime.sendMessage({ msg_type: "qrcode_decode", data: data });
+    browser.runtime.sendMessage({ type: "qrcode_decode", data: data });
 }
 
 // function result_board_drag_begin(event) {

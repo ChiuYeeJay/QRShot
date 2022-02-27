@@ -1,13 +1,19 @@
+/** Recive the messages and call different function by the type of messages.
+ * @param {object} msg
+ */
 function msg_handler(msg) {
-    if (msg.msg_type == "decode_result") {
+    if (msg.type == "decode_result") {
         receive_result_from_background(msg.data);
-    } else if (msg.msg_type == "error_report") {
+    } else if (msg.type == "error_report") {
         something_wrong_from_background(msg.data);
-    } else if (msg.msg_type == "return_capture_img") {
+    } else if (msg.type == "return_capture_img") {
         receive_captured_screenshot(msg.data);
     }
 }
 
+/** Recieve the result of decoding QR code. Set the UI based on sucess.
+ * @param {object} decoded decoded content of the QR code
+ */
 function receive_result_from_background(decoded) {
     curtain.style.cursor = "default";
     cancel_btn_frame.style.left = "23%"
@@ -21,7 +27,7 @@ function receive_result_from_background(decoded) {
         let relative_top = Math.min(location.topLeftCorner.y, location.bottomLeftCorner.y, location.topRightCorner.y, location.bottomRightCorner.y);
         let relative_bottom = Math.max(location.topLeftCorner.y, location.bottomLeftCorner.y, location.topRightCorner.y, location.bottomRightCorner.y);
         let highlight_padding = (relative_right - relative_left) * 0.05;
-        // highlight_padding = 0;
+
         highlight.left = highlight_lefttop[0] + relative_left - highlight_padding;
         highlight.top = highlight_lefttop[1] + relative_top - highlight_padding;
         highlight.width = relative_right - relative_left + 2 * highlight_padding;
@@ -57,6 +63,9 @@ function receive_result_from_background(decoded) {
     }
 }
 
+/** Receive the img src of the screen shooting. (debugging usage)
+ * @param {string} data image src 
+ */
 function receive_captured_screenshot(data) {
     let img_elm = document.createElement("img");
     img_elm.src = data;
@@ -65,6 +74,9 @@ function receive_captured_screenshot(data) {
     }
 }
 
+/** Receive error message.
+ * @param {string} error_str error description.
+ */
 function something_wrong_from_background(error_str) {
     alert("qrshot error: " + error_str);
     let r1 = document.getElementById("qrshot_curtain_frame");

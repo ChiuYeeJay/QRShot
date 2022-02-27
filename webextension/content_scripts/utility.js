@@ -7,7 +7,9 @@ function curtain_highlight_resize() {
     highlight.evaluate_position_and_size();
 }
 
-/** get the height of the webpage. */
+/** get the height of the webpage. 
+ * @returns {number} the height of the webpage
+ */
 function get_page_height() {
     return Math.max(document.body.scrollHeight,
         document.body.offsetHeight,
@@ -17,7 +19,9 @@ function get_page_height() {
     );
 }
 
-/**get the width of the webpage */
+/**get the width of the webpage 
+ * @returns {number} the width of the webpage
+ */
 function get_page_width() {
     return Math.max(document.body.scrollWidth,
         document.body.offsetWidth,
