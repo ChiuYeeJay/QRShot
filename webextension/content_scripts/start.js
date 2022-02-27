@@ -1,7 +1,8 @@
-// start()
-// When the toolbar button is clicked, the function will be called.
-// If there is some qrshot elements on the page already, we remove all qrshot elements and listener.
-// If not, it will setup all qrshot elements and message listener.
+/**
+    When the toolbar button is clicked, the function will be called.
+    - If there are some qrshot elements on the page, it removes all qrshot elements and listener.
+    - Otherwise, it will setup all qrshot elements and message listener.
+*/
 function start() {
     let r1 = document.getElementById("qrshot_curtain_frame");
     let r2 = document.getElementById("qrshot_result_frame");
@@ -24,22 +25,21 @@ function start() {
     }
 }
 
-var curtain;
+//> qrshot elements
 var curtain_frame;
-
+var curtain;
 var cancel_btn_frame;
 var cancel_btn;
 var again_btn_frame;
 var again_btn;
-
 var result_frame;
 var result_board;
 var result_text_field;
 var result_go_btn;
 var result_newtab_btn;
 var result_copy_btn;
-// var is_result_board_dragging = false;
 
+//> about selecting and result board
 var is_dragging = false;
 var dont_start_select = false;
 var is_on_certain_button = false;
@@ -47,9 +47,13 @@ var highlight;
 var mouse_start_pos;
 var mouse_start_screen_pos;
 var highlight_lefttop = [0, 0];
+// var is_result_board_dragging = false;
 
+//> the interval number to resize curtain size
 var root_highlight_resize_interval;
 
+
+/** Setup curtain iframe and the elements inside.*/
 function setup_curtain_html_elements() {
     //> curtain frame
     curtain_frame = document.createElement("iframe");
@@ -83,10 +87,10 @@ function setup_curtain_html_elements() {
 
         //> selection highlight
         highlight = new SelectionHighlight();
-        // highlight.constructor();
     };
 }
 
+/** Setup cancel_btn and again_btn iframe and the button elements inside.*/
 function setup_btns_html_elements() {
     //> cancel_btn frame
     cancel_btn_frame = document.createElement("iframe");
@@ -177,7 +181,9 @@ function setup_btns_html_elements() {
     again_btn.innerText = "Again";
 }
 
+/** Setup result_board iframe and the elements inside.*/
 function setup_result_frame_html_elements() {
+    //> result iframe
     result_frame = document.createElement("iframe");
     result_frame.id = "qrshot_result_frame";
     result_frame.style.position = "absolute";
@@ -222,34 +228,31 @@ function setup_result_frame_html_elements() {
         result_board = result_frame.contentDocument.body;
         result_board.id = "qrshot_result_board";
         result_frame.hidden = true;
-
-        // result_board.addEventListener("mousedown", result_board_drag_begin);
-        // result_board.addEventListener("mousemove", result_board_dragging);
-        // result_board.addEventListener("mouseup", result_board_drag_end);
-        // result_frame.draggable = true;
-
         result_board.appendChild(result_line_container_up);
         result_board.appendChild(result_line_container_down);
         result_board.appendChild(result_close_btn);
     }
 
-
+    //> text/url field
     result_text_field = document.createElement("input");
     result_text_field.id = "qrshot_result_text_field";
     result_text_field.type = "text";
 
+    //> go url button
     result_go_btn = document.createElement("button");
     result_go_btn.id = "qrshot_result_go_btn";
     result_go_btn.classList.add("qrshot_result_board_btns");
     result_go_btn.innerText = "Go";
     result_go_btn.addEventListener("click", () => { result_go_tab_btn_clicked("go") });
 
+    //> newtab button
     result_newtab_btn = document.createElement("button");
     result_newtab_btn.id = "qrshot_result_newtab_btn";
     result_newtab_btn.classList.add("qrshot_result_board_btns");
     result_newtab_btn.innerText = "NewTab";
     result_newtab_btn.addEventListener("click", () => { result_go_tab_btn_clicked("newtab") });
 
+    //> copy button
     result_copy_btn = document.createElement("button");
     result_copy_btn.id = "qrshot_result_copy_btn";
     result_copy_btn.classList.add("qrshot_result_board_btns");
@@ -259,11 +262,13 @@ function setup_result_frame_html_elements() {
         if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     });
 
+    //> close button
     let result_close_btn = document.createElement("button");
     result_close_btn.id = "qrshot_result_close_btn";
     result_close_btn.innerText = "X";
     result_close_btn.addEventListener("click", result_close_btn_clicked);
 
+    //> layout elements
     let result_line_container_up = document.createElement("div");
     result_line_container_up.classList.add("qrshot_result_line_container");
     result_line_container_up.appendChild(result_text_field);
@@ -276,6 +281,7 @@ function setup_result_frame_html_elements() {
     // curtain.appendChild(result_board);
 }
 
+/** Remove all qrshot elements on the page.*/
 function remove_all_qrshot_elements() {
     let r1 = document.getElementById("qrshot_curtain_frame");
     let r2 = document.getElementById("qrshot_result_frame");
