@@ -26,6 +26,3 @@ QRShot使用[cozmo](https://github.com/cozmo)的[jsQR](https://github.com/cozmo/
 - Internationalization
 - Resolve problem of zooming and relative body with left/top != 0
 - Movable result board
-- ~Submit to AMO~
-- ~~Resolve the CSS interfere problem~~
-- ~~Resolve re-execute content script problem~~
