@@ -1,5 +1,5 @@
 function cancel_btn_clicked() {
-    // document.body.removeChild(ab_root_frame);
+    // document.body.removeChild(curtain_frame);
     // document.body.removeChild(fx_root_frame);
     remove_all_qrshot_elements();
 }
@@ -12,8 +12,8 @@ function again_btn_clicked() {
     highlight.height = 0;
     highlight.evaluate_position_and_size();
     again_btn_frame.hidden = true;
-    ab_root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    ab_root.style.cursor = "crosshair"
+    curtain.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    curtain.style.cursor = "crosshair"
     if (!result_frame.hidden) result_frame.hidden = true;
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     cancel_btn_frame.style.left = "40%";
@@ -33,7 +33,7 @@ function result_copy_btn_clicked() {
 }
 
 function result_close_btn_clicked() {
-    // document.body.removeChild(ab_root_frame);
+    // document.body.removeChild(curtain_frame);
     // document.body.removeChild(fx_root_frame);
     // Document.body.removeChild(result_frame);
     remove_all_qrshot_elements();
@@ -53,7 +53,7 @@ function drag_select_begin(e) {
     highlight.height = 0;
     highlight.color = "rgba(150, 200, 255, 0.6)";
     highlight.show();
-    ab_root.style.backgroundColor = "transparent";
+    curtain.style.backgroundColor = "transparent";
     cancel_btn_frame.hidden = true;
 }
 

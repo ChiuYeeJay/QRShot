@@ -16,7 +16,7 @@ function go_shooting() {
             // a = a.then(() => { browser.tabs.insertCSS({ file: "/content_scripts/qrshot_style.css" }) });
             a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/start.js" }) });
         } else {
-            browser.tabs.executeScript({ file: "/content_scripts/start.js" });
+            browser.tabs.executeScript("start();");
         }
     });
 }

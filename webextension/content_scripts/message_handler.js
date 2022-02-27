@@ -9,7 +9,7 @@ function msg_handler(msg) {
 }
 
 function receive_result_from_background(decoded) {
-    ab_root.style.cursor = "default";
+    curtain.style.cursor = "default";
     cancel_btn_frame.style.left = "23%"
     again_btn_frame.hidden = false;
     cancel_btn_frame.hidden = false;
@@ -36,14 +36,14 @@ function receive_result_from_background(decoded) {
         result_text_field.style.cursor = is_url ? "default" : "text";
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
-        if (ab_root.clientHeight - (highlight_lefttop[1] + relative_bottom) - highlight_padding > 120) {
+        if (curtain.clientHeight - (highlight_lefttop[1] + relative_bottom) - highlight_padding > 120) {
             result_frame.style.top = (highlight_lefttop[1] + relative_bottom) + highlight_padding + 2 + "px";
             if (result_frame.style.bottom) result_frame.style.removeProperty("bottom");
         } else {
             if (result_frame.style.top) result_frame.style.removeProperty("top");
             result_frame.style.bottom = "0px";
         }
-        if (ab_root.clientWidth - (highlight_lefttop[0] + relative_left - highlight_padding) > 272) {
+        if (curtain.clientWidth - (highlight_lefttop[0] + relative_left - highlight_padding) > 272) {
             result_frame.style.left = highlight_lefttop[0] + relative_left - highlight_padding + "px";
             if (result_frame.style.right) result_frame.style.removeProperty("right");
         } else {
@@ -67,7 +67,7 @@ function receive_captured_screenshot(data) {
 
 function something_wrong_from_background(error_str) {
     alert("qrshot error: " + error_str);
-    let r1 = document.getElementById("qrshot_ab_root_frame");
+    let r1 = document.getElementById("qrshot_curtain_frame");
     let r2 = document.getElementById("qrshot_fx_root_frame");
     if (r1 != null) document.body.removeChild(r1);
     if (r2 != null) document.body.removeChild(r2);

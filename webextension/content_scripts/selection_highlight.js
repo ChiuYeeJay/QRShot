@@ -42,11 +42,11 @@ class SelectionHighlight {
         this.evaluate_position_and_size();
         this.hide();
 
-        ab_root.appendChild(this.left_black);
-        ab_root.appendChild(this.up_black);
-        ab_root.appendChild(this.right_black);
-        ab_root.appendChild(this.down_black);
-        ab_root.appendChild(this.center);
+        curtain.appendChild(this.left_black);
+        curtain.appendChild(this.up_black);
+        curtain.appendChild(this.right_black);
+        curtain.appendChild(this.down_black);
+        curtain.appendChild(this.center);
     }
 
     evaluate_position_and_size() {

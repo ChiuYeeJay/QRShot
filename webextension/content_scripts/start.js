@@ -1,5 +1,9 @@
+// start()
+// When the toolbar button is clicked, the function will be called.
+// If there is some qrshot elements on the page already, we remove all qrshot elements and listener.
+// If not, it will setup all qrshot elements and message listener.
 function start() {
-    let r1 = document.getElementById("qrshot_ab_root_frame");
+    let r1 = document.getElementById("qrshot_curtain_frame");
     let r2 = document.getElementById("qrshot_result_frame");
     let r3 = document.getElementById("qrshot_cancel_btn_frame");
     let r4 = document.getElementById("qrshot_again_btn_frame");
@@ -12,7 +16,7 @@ function start() {
         browser.runtime.onMessage.removeListener(msg_handler);
         clearInterval(root_highlight_resize_interval);
     } else {
-        setup_ab_root_html_elements();
+        setup_curtain_html_elements();
         setup_btns_html_elements();
         setup_result_frame_html_elements();
         browser.runtime.onMessage.addListener(msg_handler);
@@ -20,8 +24,8 @@ function start() {
     }
 }
 
-var ab_root;
-var ab_root_frame;
+var curtain;
+var curtain_frame;
 
 var cancel_btn_frame;
 var cancel_btn;
@@ -30,11 +34,11 @@ var again_btn;
 
 var result_frame;
 var result_board;
-var result_text_field
-var result_go_btn
-var result_newtab_btn
-var result_copy_btn
-    // var is_result_board_dragging = false;
+var result_text_field;
+var result_go_btn;
+var result_newtab_btn;
+var result_copy_btn;
+// var is_result_board_dragging = false;
 
 var is_dragging = false;
 var dont_start_select = false;
@@ -46,36 +50,36 @@ var highlight_lefttop = [0, 0];
 
 var root_highlight_resize_interval;
 
-function setup_ab_root_html_elements() {
-    //> ab_root frame
-    ab_root_frame = document.createElement("iframe");
-    ab_root_frame.id = "qrshot_ab_root_frame";
-    ab_root_frame.style.height = get_page_height() + "px";
-    ab_root_frame.style.width = get_page_width() + "px";
-    ab_root_frame.style.position = "absolute";
-    ab_root_frame.style.top = "0px";
-    ab_root_frame.style.left = "0px";
-    ab_root_frame.style.zIndex = "100000000";
-    ab_root_frame.style.border = "0px";
-    ab_root_frame.style.padding = "0px";
-    ab_root_frame.style.margin = "0px";
-    ab_root_frame.style.backgroundColor = "transparent";
-    ab_root_frame.srcdoc = "<!DOCTYPE html>";
-    document.body.appendChild(ab_root_frame);
+function setup_curtain_html_elements() {
+    //> curtain frame
+    curtain_frame = document.createElement("iframe");
+    curtain_frame.id = "qrshot_curtain_frame";
+    curtain_frame.style.height = get_page_height() + "px";
+    curtain_frame.style.width = get_page_width() + "px";
+    curtain_frame.style.position = "absolute";
+    curtain_frame.style.top = "0px";
+    curtain_frame.style.left = "0px";
+    curtain_frame.style.zIndex = "100000000";
+    curtain_frame.style.border = "0px";
+    curtain_frame.style.padding = "0px";
+    curtain_frame.style.margin = "0px";
+    curtain_frame.style.backgroundColor = "transparent";
+    curtain_frame.srcdoc = "<!DOCTYPE html>";
+    document.body.appendChild(curtain_frame);
 
-    ab_root_frame.onload = () => {
-        //> body as ab_root
-        ab_root = ab_root_frame.contentDocument.body;
-        ab_root.style.height = get_page_height() + "px";
-        ab_root.style.width = get_page_width() + "px";
-        ab_root.style.border = "0px";
-        ab_root.style.padding = "0px";
-        ab_root.style.margin = "0px";
-        ab_root.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-        ab_root.style.cursor = "crosshair"
-        ab_root.addEventListener("mousedown", drag_select_begin);
-        ab_root.addEventListener("mousemove", drag_selecting);
-        ab_root.addEventListener("mouseup", drag_select_end);
+    curtain_frame.onload = () => {
+        //> body as curtain
+        curtain = curtain_frame.contentDocument.body;
+        curtain.style.height = get_page_height() + "px";
+        curtain.style.width = get_page_width() + "px";
+        curtain.style.border = "0px";
+        curtain.style.padding = "0px";
+        curtain.style.margin = "0px";
+        curtain.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        curtain.style.cursor = "crosshair"
+        curtain.addEventListener("mousedown", drag_select_begin);
+        curtain.addEventListener("mousemove", drag_selecting);
+        curtain.addEventListener("mouseup", drag_select_end);
 
         //> selection highlight
         highlight = new SelectionHighlight();
@@ -191,11 +195,6 @@ function setup_result_frame_html_elements() {
 
     result_frame.onload = () => {
         //> css
-        // let css_link = ab_root_frame.contentDocument.createElement("link");
-        // css_link.rel = "stylesheet";
-        // css_link.href = browser.runtime.getURL("qrshot_style.css");
-        // result_frame.contentDocument.head.appendChild(css_link);
-
         let css_style = document.createElement("style");
         css_style.innerText = "#qrshot_result_board {position: absolute;background-color: rgb(10, 10, 10);\
             width: 300px;padding: 10px;border-width: 1px;border-style: solid;\
@@ -274,11 +273,11 @@ function setup_result_frame_html_elements() {
     result_line_container_down.appendChild(result_go_btn);
     result_line_container_down.appendChild(result_newtab_btn);
 
-    // ab_root.appendChild(result_board);
+    // curtain.appendChild(result_board);
 }
 
 function remove_all_qrshot_elements() {
-    let r1 = document.getElementById("qrshot_ab_root_frame");
+    let r1 = document.getElementById("qrshot_curtain_frame");
     let r2 = document.getElementById("qrshot_result_frame");
     let r3 = document.getElementById("qrshot_cancel_btn_frame");
     let r4 = document.getElementById("qrshot_again_btn_frame");
