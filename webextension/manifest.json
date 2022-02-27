@@ -13,8 +13,6 @@
     },
 
     "permissions": [
-        "activeTab",
-        "tabs",
         "<all_urls>"
     ],
 
