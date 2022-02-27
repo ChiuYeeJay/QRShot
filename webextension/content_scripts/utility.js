@@ -1,4 +1,5 @@
-function root_highlight_resize() {
+/** resize the curtain iframe. */
+function curtain_highlight_resize() {
     curtain_frame.style.height = get_page_height() + "px";
     curtain_frame.style.width = get_page_width() + "px";
     curtain.style.height = get_page_height() + "px";
@@ -6,6 +7,7 @@ function root_highlight_resize() {
     highlight.evaluate_position_and_size();
 }
 
+/** get the height of the webpage. */
 function get_page_height() {
     return Math.max(document.body.scrollHeight,
         document.body.offsetHeight,
@@ -15,6 +17,7 @@ function get_page_height() {
     );
 }
 
+/**get the width of the webpage */
 function get_page_width() {
     return Math.max(document.body.scrollWidth,
         document.body.offsetWidth,

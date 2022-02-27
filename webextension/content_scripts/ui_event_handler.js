@@ -1,10 +1,11 @@
+/** Being called when cancel_btn is clicked. Remove all qrshot elements*/
 function cancel_btn_clicked() {
-    // document.body.removeChild(curtain_frame);
-    // document.body.removeChild(fx_root_frame);
     remove_all_qrshot_elements();
 }
 
+/** Being called when again_btn is clicked. Reset ui for shooting again.*/
 function again_btn_clicked() {
+    //> hide highlight
     highlight.hide();
     highlight.left = 0;
     highlight.width = 0;
@@ -13,36 +14,43 @@ function again_btn_clicked() {
     highlight.evaluate_position_and_size();
     again_btn_frame.hidden = true;
     curtain.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    curtain.style.cursor = "crosshair"
+    curtain.style.cursor = "crosshair";
+
+    //> hide result board
     if (!result_frame.hidden) result_frame.hidden = true;
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
     cancel_btn_frame.style.left = "40%";
+
+    //> enable selecting
     dont_start_select = false;
     is_on_certain_button = false;
 }
 
-// result_go_btn or result_newtab_btn clicked
+/** 
+ * Being called when result_go_btn or result_newtab_btn is clicked. Send message to background to open the url, and then remove all qrshot elements.
+ * @param {string} type "go" or "newtab"
+ */
 function result_go_tab_btn_clicked(type) {
     browser.runtime.sendMessage({ msg_type: ("url_" + type), data: result_text_field.value });
     remove_all_qrshot_elements();
 }
 
+/** Being called when the result_copy_btn is clicked. Copy the content in textfiled to clipboard. */
 function result_copy_btn_clicked() {
     navigator.clipboard.writeText(result_text_field.value);
     result_copy_btn.style.backgroundColor = "rgba(100, 255, 100, 0.4)";
 }
 
+/** Being called when the close button on result board is clicked. Remove all qrshot elements. */
 function result_close_btn_clicked() {
-    // document.body.removeChild(curtain_frame);
-    // document.body.removeChild(fx_root_frame);
-    // Document.body.removeChild(result_frame);
     remove_all_qrshot_elements();
 }
 
-// called when mouse down on root element
+/**  Being called when mouse down on curtain element. Start slelecting.
+ * @param {MouseEvent} e mouse event.
+ */
 function drag_select_begin(e) {
     if (dont_start_select || is_on_certain_button || e.button != 0) return;
-    // console.log(e);
     is_dragging = true;
     dont_start_select = true;
     mouse_start_screen_pos = [e.clientX, e.clientY];
@@ -57,7 +65,9 @@ function drag_select_begin(e) {
     cancel_btn_frame.hidden = true;
 }
 
-// called when mouse move on root element
+/** Being called when mouse move on curtain element.
+ * @param {MouseEvent} e mouse event.
+ */
 function drag_selecting(e) {
     if (!is_dragging) return;
     if (mouse_start_pos[0] < e.pageX) {
@@ -77,19 +87,21 @@ function drag_selecting(e) {
     highlight.evaluate_position_and_size();
 }
 
-// called when mouse up on root element
+/** Being called when mouse up on curtain element. Send the rectangle position to background to decode.
+ * @param {MouseEvent} e mouse event.
+ */
 function drag_select_end(e) {
     if (!is_dragging) return;
-    // console.log(e);
     is_dragging = false;
+
+    //> Cancel selecting if the recatangle area is 0
     if (mouse_start_pos[0] == e.pageX || mouse_start_pos[0] == e.pageY) {
         cancel_btn_frame.hidden = false;
         dont_start_select = false;
         return;
     }
 
-    // cancel_btn_frame.hidden = false;
-
+    //> decide the rectangle position
     let cv_sz = [0, 0];
     if (mouse_start_pos[0] < e.pageX) {
         highlight_lefttop[0] = mouse_start_pos[0];
@@ -105,11 +117,9 @@ function drag_select_end(e) {
         highlight_lefttop[1] = e.pageY;
         cv_sz[1] = mouse_start_screen_pos[1] - highlight_lefttop[1];
     }
+
+    //> send to background
     highlight.color = "transparent";
-
-    // console.log([mouse_start_screen_pos, [e.clientX, e.clientY], offset]);
-
-    // document.body.removeChild(root);
     let data = {
         x: highlight_lefttop[0],
         y: highlight_lefttop[1],

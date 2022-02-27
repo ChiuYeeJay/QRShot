@@ -15,13 +15,13 @@ function start() {
         if (r3 != null) document.body.removeChild(r3);
         if (r4 != null) document.body.removeChild(r4);
         browser.runtime.onMessage.removeListener(msg_handler);
-        clearInterval(root_highlight_resize_interval);
+        clearInterval(curtain_highlight_resize_interval);
     } else {
         setup_curtain_html_elements();
         setup_btns_html_elements();
         setup_result_frame_html_elements();
         browser.runtime.onMessage.addListener(msg_handler);
-        root_highlight_resize_interval = setInterval(root_highlight_resize, 2000);
+        curtain_highlight_resize_interval = setInterval(curtain_highlight_resize, 2000);
     }
 }
 
@@ -50,7 +50,7 @@ var highlight_lefttop = [0, 0];
 // var is_result_board_dragging = false;
 
 //> the interval number to resize curtain size
-var root_highlight_resize_interval;
+var curtain_highlight_resize_interval;
 
 
 /** Setup curtain iframe and the elements inside.*/
@@ -294,7 +294,7 @@ function remove_all_qrshot_elements() {
         if (r4 != null) document.body.removeChild(r4);
     }
     browser.runtime.onMessage.removeListener(msg_handler);
-    clearInterval(root_highlight_resize_interval);
+    clearInterval(curtain_highlight_resize_interval);
 }
 
 start();
