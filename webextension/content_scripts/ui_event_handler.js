@@ -12,14 +12,14 @@ function again_btn_clicked() {
     highlight.top = 0;
     highlight.height = 0;
     highlight.evaluate_position_and_size();
-    again_btn_frame.hidden = true;
+    again_btn.hidden = true;
     curtain.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     curtain.style.cursor = "crosshair";
 
     //> hide result board
-    if (!result_frame.hidden) result_frame.hidden = true;
+    if (!result_board.hidden) result_board.hidden = true;
     if (result_copy_btn.style.backgroundColor) result_copy_btn.style.removeProperty("background-color");
-    cancel_btn_frame.style.left = "40%";
+    cancel_btn.style.left = "40%";
 
     //> enable selecting
     dont_start_select = false;
@@ -62,7 +62,7 @@ function drag_select_begin(e) {
     highlight.color = "rgba(150, 200, 255, 0.6)";
     highlight.show();
     curtain.style.backgroundColor = "transparent";
-    cancel_btn_frame.hidden = true;
+    cancel_btn.hidden = true;
 }
 
 /** Being called when mouse move on curtain element.
@@ -96,7 +96,7 @@ function drag_select_end(e) {
 
     //> Cancel selecting if the recatangle area is 0
     if (mouse_start_pos[0] == e.pageX || mouse_start_pos[0] == e.pageY) {
-        cancel_btn_frame.hidden = false;
+        cancel_btn.hidden = false;
         dont_start_select = false;
         return;
     }
@@ -132,18 +132,18 @@ function drag_select_end(e) {
 // function result_board_drag_begin(event) {
 //     is_result_board_dragging = true;
 //     rb_drag_init_pos = [event.clientX, event.clientY];
-//     result_frame.style.border = "1px white";
+//     result_board.style.border = "1px white";
 // }
 
 // var rb_drag_init_pos;
 
 // function result_board_dragging(event) {
 //     if (!is_result_board_dragging) return;
-//     result_frame.style.left = parseInt(result_frame.style.left, 10) + event.clientX - rb_drag_init_pos[0] + "px";
-//     result_frame.style.top = parseInt(result_frame.style.top, 10) + event.clientY - rb_drag_init_pos[1] + "px";
+//     result_board.style.left = parseInt(result_board.style.left, 10) + event.clientX - rb_drag_init_pos[0] + "px";
+//     result_board.style.top = parseInt(result_board.style.top, 10) + event.clientY - rb_drag_init_pos[1] + "px";
 // }
 
 // function result_board_drag_end(event) {
 //     is_result_board_dragging = false;
-//     result_frame.style.border = "0px";
+//     result_board.style.border = "0px";
 // }

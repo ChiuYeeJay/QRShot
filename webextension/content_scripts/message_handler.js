@@ -16,9 +16,9 @@ function msg_handler(msg) {
  */
 function receive_result_from_background(decoded) {
     curtain.style.cursor = "default";
-    cancel_btn_frame.style.left = "23%"
-    again_btn_frame.hidden = false;
-    cancel_btn_frame.hidden = false;
+    cancel_btn.style.left = "23%"
+    again_btn.hidden = false;
+    cancel_btn.hidden = false;
     if (decoded) {
         let location = decoded.location;
         //> green highlight
@@ -43,20 +43,20 @@ function receive_result_from_background(decoded) {
         result_go_btn.disabled = !is_url;
         result_newtab_btn.disabled = !is_url;
         if (curtain.clientHeight - (highlight_lefttop[1] + relative_bottom) - highlight_padding > 120) {
-            result_frame.style.top = (highlight_lefttop[1] + relative_bottom) + highlight_padding + 2 + "px";
-            if (result_frame.style.bottom) result_frame.style.removeProperty("bottom");
+            result_board.style.top = (highlight_lefttop[1] + relative_bottom) + highlight_padding + 2 + "px";
+            if (result_board.style.bottom) result_board.style.removeProperty("bottom");
         } else {
-            if (result_frame.style.top) result_frame.style.removeProperty("top");
-            result_frame.style.bottom = "0px";
+            if (result_board.style.top) result_board.style.removeProperty("top");
+            result_board.style.bottom = "0px";
         }
         if (curtain.clientWidth - (highlight_lefttop[0] + relative_left - highlight_padding) > 272) {
-            result_frame.style.left = highlight_lefttop[0] + relative_left - highlight_padding + "px";
-            if (result_frame.style.right) result_frame.style.removeProperty("right");
+            result_board.style.left = highlight_lefttop[0] + relative_left - highlight_padding + "px";
+            if (result_board.style.right) result_board.style.removeProperty("right");
         } else {
-            result_frame.style.right = "0px";
-            if (result_frame.style.left) result_frame.style.removeProperty("left");
+            result_board.style.right = "0px";
+            if (result_board.style.left) result_board.style.removeProperty("left");
         }
-        result_frame.hidden = false;
+        result_board.hidden = false;
     } else {
         console.log("fail to recognize qrcode");
         highlight.color = "rgba(255, 150, 150, 0.6)";
@@ -79,8 +79,5 @@ function receive_captured_screenshot(data) {
  */
 function something_wrong_from_background(error_str) {
     alert("qrshot error: " + error_str);
-    let r1 = document.getElementById("qrshot_curtain_frame");
-    let r2 = document.getElementById("qrshot_fx_root_frame");
-    if (r1 != null) document.body.removeChild(r1);
-    if (r2 != null) document.body.removeChild(r2);
+    remove_all_qrshot_elements()
 }

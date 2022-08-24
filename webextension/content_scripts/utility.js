@@ -1,7 +1,5 @@
 /** resize the curtain iframe. */
 function curtain_highlight_resize() {
-    curtain_frame.style.height = get_page_height() + "px";
-    curtain_frame.style.width = get_page_width() + "px";
     curtain.style.height = get_page_height() + "px";
     curtain.style.width = get_page_width() + "px";
     highlight.evaluate_position_and_size();

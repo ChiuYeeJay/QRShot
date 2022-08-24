@@ -10,10 +10,10 @@ function go_shooting() {
         if (!tab_ids.has(tabs[0].id)) {
             tab_ids.add(tabs[0].id);
             let a = browser.tabs.executeScript({ file: "/content_scripts/utility.js" });
-            a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/selection_highlight.js" }) });
-            a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/ui_event_handler.js" }) });
-            a = a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/message_handler.js" }) });
-            a.then(() => { browser.tabs.executeScript({ file: "/content_scripts/start.js" }) });
+            a = a.then(() => { return browser.tabs.executeScript({ file: "/content_scripts/selection_highlight.js" }) });
+            a = a.then(() => { return browser.tabs.executeScript({ file: "/content_scripts/ui_event_handler.js" }) });
+            a = a.then(() => { return browser.tabs.executeScript({ file: "/content_scripts/message_handler.js" }) });
+            a.then(() => { return browser.tabs.executeScript({ file: "/content_scripts/start.js" }) });
         } else {
             browser.tabs.executeScript({ file: "/content_scripts/start.js" });
         }
